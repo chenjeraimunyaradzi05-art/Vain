@@ -1,7 +1,6 @@
 [build]
   base = "/"
   command = "cd apps/web && npm run build"
-  publish = "apps/web/.next"
 
 [build.environment]
   NODE_VERSION = "22"
@@ -14,5 +13,4 @@
   command = "cd apps/web && npm run dev"
   port = 3000
   targetPort = 3000
-  publish = "apps/web"
 
