@@ -1,0 +1,589 @@
+/* -------------------------------------------------------------------
+   Ngurra Pathways - Core Theme
+   ------------------------------------------------------------------- */
+:root {
+  
+  
+
+
+  /* Aura inspired palette (magenta -> purple -> indigo) */
+  --aura-pink: #ec4899;
+  --aura-purple: #a855f7;
+  --aura-indigo: #6366f1;
+  --aura-gradient: linear-gradient(135deg,var(--aura-pink) 0%, var(--aura-purple) 55%, var(--aura-indigo) 100%);
+  --aura-surface: rgba(2,6,23,0.72);
+  --aura-muted: rgba(15,23,42,0.72);
+
+  /* Map common variables to Aura palette for compatibility */
+  /* Adjusted for WCAG AA contrast (suggested values) */
+  --primary: #5d60e3; /* darker indigo for AA */
+  --primary-dark: #4742d1;
+  --accent: #cb3e84; /* darker pink / magenta for AA */
+  --accent-light: rgba(236,72,153,0.08);
+  --sand: #050816;
+  --sand-dark: rgba(2,6,23,0.92);
+  --white: rgba(2,6,23,0.72);
+
+  /* Dark UI surfaces (legacy/static pages) */
+  --surface: rgba(2,6,23,0.72);
+  --surface-2: rgba(15,23,42,0.72);
+  --input-bg: rgba(15,23,42,0.72);
+
+  /* Text & UI (tuned for Aura) */
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border: rgba(148,163,184,0.18);
+  --radius: 16px;
+  --shadow: 0 12px 30px rgba(0,0,0,0.45);
+  /* Typography tuning */
+  --base-font-size: 15px; /* slightly smaller base for denser layouts */
+  --body-letter-spacing: 0.01em;
+  --focus-ring: 0 0 0 4px rgba(168,85,247,0.18);
+  /* header — lighter / softer variant for a less heavy visual weight */
+  --header-bg-start: rgba(99,102,241,0.14);
+  --header-bg-mid: rgba(168,85,247,0.12);
+  --header-bg-end: rgba(236,72,153,0.10);
+  --header-overlay-opacity: 0.25;
+  /* scaled UI variables — these can be changed with .theme-* classes */
+  --scale-factor: 1; /* 1 = 100% */
+  --header-overlay-base: 0.25;
+  --header-overlay-opacity: calc(var(--header-overlay-base) * var(--scale-factor));
+
+  --elev-1-alpha-base: 0.08;
+  --elev-2-alpha-base: 0.12;
+  --cta-glow-alpha-base: 0.12;
+
+  --elev-1-alpha: calc(var(--elev-1-alpha-base) * var(--scale-factor));
+  --elev-2-alpha: calc(var(--elev-2-alpha-base) * var(--scale-factor));
+  --cta-glow-alpha: calc(var(--cta-glow-alpha-base) * var(--scale-factor));
+
+  --elev-1: 0 8px 20px rgba(15,23,42,var(--elev-1-alpha));
+  --elev-2: 0 18px 40px rgba(15,23,42,var(--elev-2-alpha));
+  --cta-glow: 0 10px 30px rgba(99,102,241,var(--cta-glow-alpha));
+
+  --contrast-base: 1;
+  --contrast-factor: calc(var(--contrast-base) * var(--scale-factor));
+  --accent-strong: #ff0077;
+}
+
+/* -------------------------------------------------------------------
+   Reset & Base
+   ------------------------------------------------------------------- */
+* { 
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body { 
+  margin: 0;
+  font-family: Inter, 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--sand);
+  color: var(--text-main);
+  line-height: 1.6;
+  font-size: var(--base-font-size);
+  letter-spacing: var(--body-letter-spacing);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main);
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+h1 { font-size: clamp(2rem, 4.2vw, 3.2rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.25rem, 2.8vw, 1.9rem); letter-spacing: -0.01em; }
+h3 { font-size: clamp(1.1rem, 2.2vw, 1.25rem); letter-spacing: 0em; }
+h4 { font-size: 1.15rem; }
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+a { 
+  color: var(--primary); 
+  text-decoration: none; 
+  font-weight: 600; 
+  transition: color 0.2s, text-decoration 0.2s; 
+}
+
+a:hover { 
+  color: var(--accent); 
+  text-decoration: underline; 
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+
+/* Focus Accessibility */
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 18px; }
+.grid { display: grid; gap: 24px; grid-template-columns: 1fr 380px; }
+@media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+
+/* -------------------------------------------------------------------
+   Components
+   ------------------------------------------------------------------- */
+/* Cards */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--elev-1);
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+/* Pills & Badges */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Buttons */
+.btn, button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary, button.primary, .primary {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(44, 95, 71, 0.2);
+}
+
+.btn-primary:hover, button.primary:hover, .primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(44, 95, 71, 0.3);
+  text-decoration: none;
+}
+
+.btn-secondary, button.secondary, .secondary {
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-secondary:hover, button.secondary:hover, .secondary:hover {
+  background-color: var(--sand-dark);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+button:disabled,
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Aura variant for prominent CTAs */
+.btn-aura, button.btn-aura {
+  background: var(--aura-gradient);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow: 0 10px 28px rgba(148,51,234,0.18);
+  padding: 12px 22px;
+}
+
+.btn-aura:hover, button.btn-aura:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+  box-shadow: var(--cta-glow);
+}
+
+/* Additional button variants */
+.btn-lg { padding: 14px 28px; font-size: 1.05rem; border-radius: 12px; }
+.btn-ghost { background: transparent; color: var(--primary-dark); border: 1px solid rgba(15,23,42,0.06); }
+.btn-ghost:hover { background: rgba(15,23,42,0.02); transform: translateY(-4px); }
+.btn-elev { box-shadow: 0 12px 36px rgba(99,102,241,0.12); transform: translateZ(0); }
+.icon-btn { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; border:1px solid rgba(15,23,42,0.06); background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(245,245,255,0.96)); }
+
+/* Subtle animated micro-interactions */
+@keyframes floatUp { from { transform: translateY(6px); opacity: .95 } to { transform: translateY(0); opacity: 1 } }
+.card, .btn-aura, .ai-module { animation: floatUp .45s ease both; }
+
+/* global scale filter — applied to entire page to push contrast/saturation together */
+body { filter: contrast(var(--contrast-factor)) saturate(calc(var(--contrast-factor) * 1.02)); }
+
+
+
+/* Make headings crisper */
+h1, h2, h3 { text-rendering: optimizeLegibility; -webkit-font-smoothing:antialiased }
+
+/* Theme steps: use .theme-60 / .theme-70 ... .theme-140 on <body> to change the UI in 10% increments */
+.theme-60  { --scale-factor: 0.6; }
+.theme-70  { --scale-factor: 0.7; }
+.theme-80  { --scale-factor: 0.8; }
+.theme-90  { --scale-factor: 0.9; }
+.theme-100 { --scale-factor: 1; }
+.theme-110 { --scale-factor: 1.1; }
+.theme-120 { --scale-factor: 1.2; }
+.theme-130 { --scale-factor: 1.3; }
+.theme-140 { --scale-factor: 1.4; }
+
+/* make scaled paddings and gaps respond to scale — use calc where we used fixed px */
+.wrap { max-width: 1400px; margin: 0 auto; padding: calc(18px * var(--scale-factor)); }
+.card { padding: calc(28px * var(--scale-factor)); }
+.btn, button { padding: calc(12px * var(--scale-factor)) calc(24px * var(--scale-factor)); border-radius: calc(10px * var(--scale-factor)); }
+.btn-aura, button.btn-aura { padding: calc(12px * var(--scale-factor)) calc(22px * var(--scale-factor)); box-shadow: var(--cta-glow); }
+.logo-lockup img { width: calc(48px * var(--scale-factor)); height: calc(48px * var(--scale-factor)); }
+.hero-content h1 { font-size: clamp(calc(2rem * var(--scale-factor)), calc(4.2vw), calc(3.2rem * var(--scale-factor))); }
+
+
+/* Theme stepper control styling */
+#gimbi-theme-stepper { outline: none; }
+#gimbi-theme-stepper:focus { box-shadow: 0 6px 18px rgba(15,23,42,0.12), 0 0 0 4px rgba(99,102,241,0.09); transform: translateY(-2px); }
+#gimbi-theme-stepper .icon-btn { width:36px; height:36px; font-weight:800; }
+.theme-range { -webkit-appearance: none; appearance:none; height:6px; background:linear-gradient(90deg,var(--aura-purple),var(--aura-indigo)); border-radius:999px; border:0; outline:none; }
+.theme-range::-webkit-slider-thumb { -webkit-appearance: none; appearance:none; width:16px; height:16px; border-radius:50%; background: white; border:4px solid rgba(255,255,255,0.8); box-shadow: 0 6px 16px rgba(15,23,42,0.12); cursor:pointer; }
+.theme-range:focus { box-shadow: 0 0 0 4px rgba(99,102,241,0.14); }
+
+/* Accessible visible names and larger hit area for keyboard users */
+#gimbi-theme-stepper .icon-btn { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:8px; }
+#gimbi-theme-stepper .icon-btn:focus { box-shadow: 0 0 0 4px rgba(168,85,247,0.15); outline: none; }
+#gimbi-theme-stepper [aria-live] { font-weight:800; }
+
+/* -------------------------------------------------------------------
+   Header & Nav
+   ------------------------------------------------------------------- */
+header {
+  /* softer header background, less heavy on the eyes */
+  background: linear-gradient(135deg, var(--header-bg-start), var(--header-bg-mid), var(--header-bg-end));
+  color: var(--text-main); /* dark text for improved contrast */
+  padding: 18px 0 36px;
+  position: relative;
+  /* keep header visually above content in case hero expands upward */
+  z-index: 120;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* make sure main content has breathing room below header to avoid overlap */
+#main-content { margin-top: 56px; position: relative; z-index: 1; }
+
+@media (max-width: 960px) {
+  #main-content { margin-top: 28px; }
+}
+
+/* CSS Pattern overlay for texture */
+header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 30px 30px, 50px 50px;
+  opacity: var(--header-overlay-opacity);
+  pointer-events: none;
+}
+
+/* Decorative accent */
+header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), #f5a572, var(--accent));
+  opacity: 0.55;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-lockup img { 
+  width: 48px; 
+  height: 48px; 
+  border-radius: 10px; 
+  background: white; 
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.logo-text h3 { 
+  margin: 0; 
+  color: var(--text-main); 
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+.logo-text span { 
+  font-size: 0.85rem; 
+  color: var(--text-muted);
+  font-weight: 400;
+  display: block;
+  margin-top: 2px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.main-nav a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.main-nav a:hover {
+  color: var(--primary);
+  background: rgba(99,102,241,0.06);
+  text-decoration: none;
+}
+
+.main-nav a[aria-current="page"] {
+  background: rgba(99,102,241,0.08);
+  color: var(--primary-dark);
+}
+
+.main-nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.hero-content { 
+  text-align: center; 
+  position: relative; 
+  z-index: 2; 
+  max-width: 800px; 
+  margin: 0 auto; 
+}
+
+.hero-content h1 { 
+  color: var(--text-main); 
+  font-size: clamp(2.2rem, 5.6vw, 3.6rem); 
+  margin-bottom: 12px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.hero-content p { 
+  color: var(--text-muted); 
+  font-size: clamp(0.98rem, 1.6vw, 1.05rem); 
+  max-width: 700px; 
+  margin: 0 auto;
+  line-height: 1.7;
+  text-shadow: none;
+}
+
+/* -------------------------------------------------------------------
+   AI Module UI — visual helpers for demo/assistant blocks
+   ------------------------------------------------------------------- */
+.ai-module {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,255,0.98));
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid rgba(15,23,42,0.04);
+  box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+  max-width: 100%;
+  margin-bottom: 18px;
+}
+
+.ai-module .ai-toolbar {
+  display:flex; gap:8px; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+
+.ai-module .ai-controls { display:flex; gap:8px; align-items:center; }
+
+.ai-module .ai-output {
+  background: #fff; border-radius:10px; padding:12px; border:1px solid var(--border); color:var(--text-main);
+  min-height:80px; max-height:320px; overflow:auto; font-size:0.95rem;
+}
+
+.ai-module .ai-chat { display:flex; gap:8px; align-items:flex-start; }
+.ai-module .ai-chat .avatar { width:36px; height:36px; border-radius:50%; background:var(--aura-purple); display:inline-block; flex:0 0 36px; }
+.ai-module .ai-chat .bubble { background:linear-gradient(180deg, rgba(236,72,153,0.06), rgba(99,102,241,0.03)); padding:10px 12px; border-radius:8px; border:1px solid rgba(0,0,0,0.03); }
+
+.ai-hint { font-size:0.9rem; color:var(--text-muted); margin-top:8px; }
+
+.small { font-size:0.9rem; color:var(--text-muted); }
+
+
+
+/* -------------------------------------------------------------------
+   Job & Content
+   ------------------------------------------------------------------- */
+.job-meta {
+  display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0 24px;
+  font-size: 0.9rem; color: var(--text-muted);
+}
+.job-meta span { display: flex; align-items: center; gap: 6px; }
+
+.notice-box {
+  background: #FFF8F0;
+  border-left: 4px solid var(--accent);
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+/* -------------------------------------------------------------------
+   Forms
+   ------------------------------------------------------------------- */
+.form-group { margin-bottom: 18px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-dark); font-size: 0.9rem; }
+input[type="text"], input[type="email"], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  transition: border 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+.help-text { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
+
+/* -------------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------------- */
+footer {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  background: linear-gradient(180deg, transparent, var(--sand-dark));
+}
+
+.ack {
+  max-width: 700px;
+  margin: 0 auto 20px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.ack strong {
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-style: normal;
+}
+
+/* -------------------------------------------------------------------
+   Utility Classes
+   ------------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+.p-4 { padding: 2rem; }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }

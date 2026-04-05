@@ -1,0 +1,4049 @@
+openapi: 3.0.3
+info:
+  title: Ngurra Pathways API
+  description: |
+    Enterprise API for Ngurra Pathways (Gimbi) - A culturally-grounded employment, 
+    education & mentorship platform for First Nations futures.
+
+    ## Rate Limiting
+
+    - Standard endpoints: 1000 requests/hour
+    - AI endpoints: 50 requests/hour
+    - Enterprise tier: Custom limits
+
+    ## Data Sovereignty
+
+    All data is stored in Australia. Members retain ownership of their personal data
+    and can export or delete it at any time. See /data-sovereignty endpoints.
+
+  version: 1.0.0
+  contact:
+    name: Ngurra Pathways Support
+    email: support@ngurrapathways.com.au
+  license:
+    name: Proprietary
+    url: https://ngurrapathways.com.au/terms
+
+servers:
+  - url: https://api.ngurrapathways.com.au/v1
+    description: Production server
+  - url: https://staging-api.ngurrapathways.com.au/v1
+    description: Staging server
+  - url: https://dev-api.ngurrapathways.com.au/v1
+    description: Development server
+  - url: http://localhost:3333
+    description: Local development
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: Jobs
+    description: Job listing and search endpoints
+  - name: Applications
+    description: Job application management
+  - name: Members
+    description: Member profile and portfolio management
+  - name: Mentorship
+    description: Mentor matching and session management
+  - name: Courses
+    description: Training courses and enrolments
+  - name: Social Feed
+    description: Social networking feed, posts, reactions, and comments
+  - name: Connections
+    description: User connections and following management
+  - name: Groups
+    description: Community groups and membership management
+  - name: Messaging
+    description: Direct messaging and conversations
+  - name: Recommendations
+    description: Personalized recommendations for jobs, mentors, and connections
+  - name: AI
+    description: AI-powered career and wellness coaching endpoints
+  - name: Analytics
+    description: Impact metrics and reporting
+  - name: Billing
+    description: Subscriptions, invoices, and billing portal
+  - name: Moderation
+    description: Automated content moderation checks
+  - name: RAP
+    description: Reconciliation Action Plan reporting
+  - name: Data Sovereignty
+    description: Data export and consent management
+  - name: White Label
+    description: White-label tenant branding and configuration
+  - name: API Docs
+    description: Interactive API documentation endpoints
+  - name: Enterprise
+    description: Enterprise API keys, webhooks, SSO, and bulk import
+
+paths:
+  # ------------------------------------------------------------------
+  # Authentication
+  # ------------------------------------------------------------------
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register a new user
+      operationId: postAuthRegister
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Login user
+      operationId: postAuthLogin
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ------------------------------------------------------------------
+  # Jobs
+  # ------------------------------------------------------------------
+  /jobs:
+    get:
+      tags: [Jobs]
+      summary: List jobs
+      operationId: getJobs
+      security: []
+      description: Search and filter job listings
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search term for job title or description
+        - name: location
+          in: query
+          schema:
+            type: string
+          description: Filter by location
+        - name: employment
+          in: query
+          schema:
+            type: string
+            enum: [FULL_TIME, PART_TIME, CONTRACT, CASUAL, APPRENTICESHIP]
+          description: Filter by employment type
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Filter by active status
+      responses:
+        '200':
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /analytics/job:
+    post:
+      tags: [Analytics]
+      summary: Track job analytics event
+      operationId: postAnalyticsJobEvent
+      description: Track user interactions with job listings
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [jobId, eventType]
+              properties:
+                jobId:
+                  type: string
+                userId:
+                  type: string
+                  nullable: true
+                eventType:
+                  type: string
+                  enum: [view, apply, save, share]
+                source:
+                  type: string
+                referrer:
+                  type: string
+                metadata:
+                  type: object
+      responses:
+        '200':
+          description: Event tracked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tracked:
+                    type: boolean
+                  eventId:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /analytics/track:
+    post:
+      tags: [Analytics]
+      summary: Track company analytics event
+      operationId: postAnalyticsTrack
+      description: General-purpose authenticated analytics event.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [eventType]
+              properties:
+                eventType:
+                  type: string
+                metadata:
+                  type: object
+      responses:
+        '200':
+          description: Event tracked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tracked:
+                    type: boolean
+                  id:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ------------------------------------------------------------------
+  # AI Endpoints
+  # ------------------------------------------------------------------
+
+  /ai/wellness:
+    post:
+      tags: [AI]
+      summary: AI wellness coach
+      operationId: postAiWellness
+      description: |
+        Provides culturally-aware wellness tips, community resources, 
+        elder support options, and course recommendations for various wellness areas.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: Optional user ID for personalised suggestions
+                area:
+                  type: string
+                  enum: [mental, alcohol, fitness, general]
+                  description: Wellness focus area
+      responses:
+        '200':
+          description: Wellness suggestions and resources
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WellnessResponse'
+        '429':
+          description: Rate limited
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: rate_limited
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /ai/concierge:
+    post:
+      tags: [AI]
+      summary: AI career concierge
+      operationId: postAiConcierge
+      description: Conversational AI assistant for career guidance and platform navigation.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [prompt]
+              properties:
+                prompt:
+                  type: string
+                  description: User message or query
+                userId:
+                  type: string
+      responses:
+        '200':
+          description: AI concierge response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  text:
+                    type: string
+                  suggestions:
+                    type: array
+                    items:
+                      type: string
+                  source:
+                    type: string
+                    enum: [ai, fallback, safety]
+        '429':
+          description: Rate limited
+
+  /ai/resume-enhance:
+    post:
+      tags: [AI]
+      summary: AI resume enhancer
+      operationId: postAiResumeEnhance
+      description: Suggests improvements for resume content with culturally-sensitive guidance.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [resumeText]
+              properties:
+                resumeText:
+                  type: string
+                userId:
+                  type: string
+      responses:
+        '200':
+          description: Resume enhancement suggestions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  suggestions:
+                    type: array
+                    items:
+                      type: string
+                  source:
+                    type: string
+        '429':
+          description: Rate limited
+
+  /ai/interview-prep:
+    post:
+      tags: [AI]
+      summary: AI interview coach
+      operationId: postAiInterviewPrep
+      description: Provides practice interview questions and tips for specific job types.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [jobTitle]
+              properties:
+                jobTitle:
+                  type: string
+                industry:
+                  type: string
+                userId:
+                  type: string
+      responses:
+        '200':
+          description: Interview preparation content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        question:
+                          type: string
+                        tip:
+                          type: string
+                  source:
+                    type: string
+        '429':
+          description: Rate limited
+
+  # ------------------------------------------------------------------
+  # RAP
+  # ------------------------------------------------------------------
+
+  /rap/company/overview:
+    get:
+      tags: [RAP]
+      summary: Get RAP compliance overview
+      operationId: getRapCompanyOverview
+      description: Get company-specific RAP metrics and compliance status
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 90
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: RAP overview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RAPOverview'
+
+  /rap/admin/placements-summary:
+    get:
+      tags: [RAP]
+      summary: Get placements summary (admin)
+      operationId: getRapAdminPlacementsSummary
+      description: Admin-only aggregate placements per company and per-day timeseries.
+      security:
+        - adminKey: []
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 90
+            minimum: 1
+            maximum: 365
+      responses:
+        '200':
+          description: Placements summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RAPAdminPlacementsSummary'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+
+  /rap/certification:
+    get:
+      tags: [RAP]
+      summary: Get RAP certification status
+      operationId: getRapCertification
+      description: Read-only certification status for the current company.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Certification status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RAPCertificationStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /rap/certification/eligibility:
+    get:
+      tags: [RAP]
+      summary: Check RAP certification eligibility
+      operationId: getRapCertificationEligibility
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Eligibility check
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RAPCertificationEligibility'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /rap/certification/update:
+    post:
+      tags: [RAP]
+      summary: Recalculate and update RAP certification
+      operationId: postRapCertificationUpdate
+      description: Recalculates certification points and updates the company badge if thresholds are met.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Update result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RAPCertificationUpdateResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /data-sovereignty/export:
+    post:
+      tags: [Data Sovereignty]
+      summary: Request data export
+      operationId: postDataSovereigntyExport
+      description: Request a full export of your personal data (GDPR/Data Sovereignty compliant)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [json, csv]
+                  default: json
+                includeFiles:
+                  type: boolean
+                  default: true
+      responses:
+        '202':
+          description: Export request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExportRequestResponse'
+        '409':
+          description: Export already in progress
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  exportId:
+                    type: string
+                  status:
+                    type: string
+
+  /data-sovereignty/export/{exportId}:
+    get:
+      tags: [Data Sovereignty]
+      summary: Get export request status
+      operationId: getDataSovereigntyExportByExportId
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: exportId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Export status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExportStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /data-sovereignty/export/{exportId}/download:
+    get:
+      tags: [Data Sovereignty]
+      summary: Download a completed export
+      operationId: getDataSovereigntyExportByExportIdDownload
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: exportId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Export file
+          content:
+            application/json:
+              schema:
+                type: object
+            text/csv:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '410':
+          description: Export has expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /data-sovereignty/consent:
+    get:
+      tags: [Data Sovereignty]
+      summary: Get consent preferences
+      operationId: getDataSovereigntyConsent
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Current consent settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentGetResponse'
+    put:
+      tags: [Data Sovereignty]
+      summary: Update consent preferences
+      operationId: putDataSovereigntyConsent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentPreferences'
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Consent updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentUpdateResponse'
+
+  /data-sovereignty/delete:
+    post:
+      tags: [Data Sovereignty]
+      summary: Request account deletion
+      operationId: postDataSovereigntyDelete
+      description: Request complete deletion of account and all associated data
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [confirmEmail]
+              properties:
+                confirmEmail:
+                  type: string
+                  format: email
+                reason:
+                  type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '202':
+          description: Deletion request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletionRequestResponse'
+
+  /data-sovereignty/delete/cancel:
+    post:
+      tags: [Data Sovereignty]
+      summary: Cancel a pending deletion request
+      operationId: postDataSovereigntyDeleteCancel
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Cancellation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /data-sovereignty/cdba:
+    get:
+      tags: [Data Sovereignty]
+      summary: Get Community Data Benefit Agreement information
+      operationId: getDataSovereigntyCdba
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: CDBA info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CDBAInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /white-label/config:
+    get:
+      tags: [White Label]
+      summary: Get white-label configuration
+      operationId: getWhiteLabelConfig
+      security: []
+      description: Public endpoint to retrieve branding config by domain or slug
+      parameters:
+        - name: slug
+          in: query
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Branding configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhiteLabelConfig'
+
+  /white-label/tenants:
+    get:
+      tags: [White Label]
+      summary: List white-label tenants
+      operationId: getWhiteLabelTenants
+      description: Admin-only list of tenants
+      security:
+        - adminKey: []
+      responses:
+        '200':
+          description: Tenants list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhiteLabelTenantListResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags: [White Label]
+      summary: Create a white-label tenant
+      operationId: postWhiteLabelTenants
+      description: Admin-only tenant creation
+      security:
+        - adminKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhiteLabelTenantCreateRequest'
+      responses:
+        '201':
+          description: Tenant created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tenant:
+                    $ref: '#/components/schemas/WhiteLabelTenant'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Tenant conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /white-label/tenants/{slug}:
+    get:
+      tags: [White Label]
+      summary: Get a tenant
+      operationId: getWhiteLabelTenantsBySlug
+      description: Owner or admin can retrieve tenant configuration
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tenant
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tenant:
+                    $ref: '#/components/schemas/WhiteLabelTenant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [White Label]
+      summary: Update a tenant
+      operationId: putWhiteLabelTenantsBySlug
+      description: Owner or admin can update tenant configuration
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhiteLabelTenantUpdateRequest'
+      responses:
+        '200':
+          description: Tenant updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tenant:
+                    $ref: '#/components/schemas/WhiteLabelTenant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Domain conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+    delete:
+      tags: [White Label]
+      summary: Deactivate a tenant
+      operationId: deleteWhiteLabelTenantsBySlug
+      description: Admin-only tenant deactivation
+      security:
+        - adminKey: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tenant deactivated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  tenant:
+                    $ref: '#/components/schemas/WhiteLabelTenant'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+
+  /white-label/tenants/{slug}/preview:
+    post:
+      tags: [White Label]
+      summary: Generate a tenant preview URL
+      operationId: postWhiteLabelTenantsBySlugPreview
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Preview URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  previewUrl:
+                    type: string
+                  expiresIn:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /white-label/css/{slug}:
+    get:
+      tags: [White Label]
+      summary: Get generated tenant CSS
+      operationId: getWhiteLabelCssBySlug
+      security: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: CSS variables and custom CSS
+          content:
+            text/css:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/docs:
+    get:
+      tags: [API Docs]
+      summary: Swagger UI
+      operationId: getApiDocs
+      description: Interactive API documentation (Swagger UI).
+      security: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Swagger UI HTML
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /api/docs/openapi.json:
+    get:
+      tags: [API Docs]
+      summary: Get OpenAPI spec (JSON)
+      operationId: getApiDocsOpenapiJson
+      security: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: OpenAPI JSON
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/docs/openapi.yaml:
+    get:
+      tags: [API Docs]
+      summary: Get OpenAPI spec (YAML)
+      operationId: getApiDocsOpenapiYaml
+      security: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: OpenAPI YAML
+          content:
+            text/yaml:
+              schema:
+                type: string
+
+  # ==========================================
+  # SOCIAL FEED ENDPOINTS
+  # ==========================================
+
+  /social-feed:
+    get:
+      tags: [Social Feed]
+      summary: Get personalized social feed
+      operationId: getSocialFeed
+      description: |
+        Returns a personalized feed of posts from connections, groups, and recommendations.
+        Uses the feed ranking algorithm with time decay and engagement scoring.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of posts per page (max 50)
+          schema:
+            type: integer
+            default: 20
+            maximum: 50
+        - name: feedType
+          in: query
+          description: Type of feed
+          schema:
+            type: string
+            enum: [all, connections, groups, trending]
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Feed posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SocialPost'
+                  hasMore:
+                    type: boolean
+                  nextCursor:
+                    type: string
+    post:
+      tags: [Social Feed]
+      summary: Create a new post
+      operationId: postSocialFeed
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostRequest'
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPost'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /social-feed/{postId}:
+    get:
+      tags: [Social Feed]
+      summary: Get post details
+      operationId: getSocialFeedByPostId
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Post details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPost'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Social Feed]
+      summary: Delete a post
+      operationId: deleteSocialFeedByPostId
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Post deleted
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /social-feed/{postId}/reactions:
+    post:
+      tags: [Social Feed]
+      summary: React to a post
+      operationId: postSocialFeedByPostIdReactions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type]
+              properties:
+                type:
+                  type: string
+                  enum: [like, love, support, celebrate, insightful, curious]
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Reaction added
+    delete:
+      tags: [Social Feed]
+      summary: Remove reaction from a post
+      operationId: deleteSocialFeedByPostIdReactions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '204':
+          description: Reaction removed
+
+  /social-feed/{postId}/comments:
+    get:
+      tags: [Social Feed]
+      summary: Get post comments
+      operationId: getSocialFeedByPostIdComments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Comments list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+                  hasMore:
+                    type: boolean
+    post:
+      tags: [Social Feed]
+      summary: Add a comment
+      operationId: postSocialFeedByPostIdComments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content]
+              properties:
+                content:
+                  type: string
+                  maxLength: 2000
+                parentId:
+                  type: string
+                  description: ID of parent comment for nested replies
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '201':
+          description: Comment added
+
+  # ==========================================
+  # CONNECTIONS ENDPOINTS
+  # ==========================================
+
+  /connections:
+    get:
+      tags: [Connections]
+      summary: Get user connections
+      operationId: getConnections
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [accepted, pending, sent]
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Connections list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  connections:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Connection'
+                  total:
+                    type: integer
+
+  /connections/request:
+    post:
+      tags: [Connections]
+      summary: Send connection request
+      operationId: postConnectionsRequest
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId]
+              properties:
+                userId:
+                  type: string
+                message:
+                  type: string
+                  maxLength: 500
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '201':
+          description: Request sent
+
+  /connections/{connectionId}/accept:
+    post:
+      tags: [Connections]
+      summary: Accept connection request
+      operationId: postConnectionsByConnectionIdAccept
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: connectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Connection accepted
+
+  /connections/{connectionId}/reject:
+    post:
+      tags: [Connections]
+      summary: Reject connection request
+      operationId: postConnectionsByConnectionIdReject
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: connectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Connection rejected
+
+  /connections/{userId}/follow:
+    post:
+      tags: [Connections]
+      summary: Follow a user
+      operationId: postConnectionsByUserIdFollow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Now following user
+    delete:
+      tags: [Connections]
+      summary: Unfollow a user
+      operationId: deleteConnectionsByUserIdFollow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Unfollowed user
+
+  # ==========================================
+  # GROUPS ENDPOINTS
+  # ==========================================
+
+  /groups:
+    get:
+      tags: [Groups]
+      summary: Discover groups
+      operationId: getGroups
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [community, professional, support, cultural, learning]
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: featured
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Groups list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+    post:
+      tags: [Groups]
+      summary: Create a new group
+      operationId: postGroups
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '201':
+          description: Group created
+
+  /groups/my-groups:
+    get:
+      tags: [Groups]
+      summary: Get user's groups
+      operationId: getGroupsMyGroups
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: User's groups
+
+  /groups/{groupId}:
+    get:
+      tags: [Groups]
+      summary: Get group details
+      operationId: getGroupsByGroupId
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Group details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+
+  /groups/{groupId}/join:
+    post:
+      tags: [Groups]
+      summary: Join a group
+      operationId: postGroupsByGroupIdJoin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Joined group
+
+  /groups/{groupId}/leave:
+    post:
+      tags: [Groups]
+      summary: Leave a group
+      operationId: postGroupsByGroupIdLeave
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Left group
+
+  /groups/{groupId}/posts:
+    get:
+      tags: [Groups]
+      summary: Get group posts
+      operationId: getGroupsByGroupIdPosts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Group posts
+
+  # ==========================================
+  # MESSAGING ENDPOINTS
+  # ==========================================
+
+  /messages/conversations:
+    get:
+      tags: [Messaging]
+      summary: Get user conversations
+      operationId: getMessagesConversations
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Conversations list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conversations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Conversation'
+    post:
+      tags: [Messaging]
+      summary: Start a new conversation
+      operationId: postMessagesConversations
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [participantIds]
+              properties:
+                participantIds:
+                  type: array
+                  items:
+                    type: string
+                name:
+                  type: string
+                  description: Optional name for group chats
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '201':
+          description: Conversation created
+
+  /messages/conversations/{conversationId}/messages:
+    get:
+      tags: [Messaging]
+      summary: Get conversation messages
+      operationId: getMessagesConversationsByConversationIdMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Messages list
+    post:
+      tags: [Messaging]
+      summary: Send a message
+      operationId: postMessagesConversationsByConversationIdMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content]
+              properties:
+                content:
+                  type: string
+                type:
+                  type: string
+                  enum: [text, image, file]
+                  default: text
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '201':
+          description: Message sent
+
+  # ==========================================
+  # RECOMMENDATIONS ENDPOINTS
+  # ==========================================
+
+  /recommendations:
+    get:
+      tags: [Recommendations]
+      summary: Get personalized job recommendations
+      operationId: getRecommendations
+      description: AI-powered job recommendations based on skills, experience, and preferences
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: minScore
+          in: query
+          description: Minimum match score (0-1)
+          schema:
+            type: number
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Job recommendations
+
+  /recommendations/connections:
+    get:
+      tags: [Recommendations]
+      summary: Get connection recommendations
+      operationId: getRecommendationsConnections
+      description: People you may know based on collaborative filtering
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Connection recommendations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recommendations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user:
+                          $ref: '#/components/schemas/UserProfile'
+                        score:
+                          type: number
+                        reasons:
+                          type: array
+                          items:
+                            type: string
+
+  /recommendations/mentors:
+    get:
+      tags: [Recommendations]
+      summary: Get mentor recommendations
+      operationId: getRecommendationsMentors
+      description: Mentors matched to your goals and interests
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Mentor recommendations
+
+  /recommendations/groups:
+    get:
+      tags: [Recommendations]
+      summary: Get group recommendations
+      operationId: getRecommendationsGroups
+      description: Groups you might be interested in
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: Group recommendations
+
+  # ==========================================
+  # ENTERPRISE PATHS
+  # ==========================================
+
+  /api-keys:
+    get:
+      tags: [Enterprise]
+      summary: List API keys
+      operationId: getApiKeys
+      description: List all API keys for the authenticated company
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: List of API keys
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiKey'
+    post:
+      tags: [Enterprise]
+      summary: Create API key
+      operationId: postApiKeys
+      description: Generate a new API key for programmatic access
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                  minLength: 3
+                permissions:
+                  type: array
+                  items:
+                    type: string
+                  default: [read]
+                expiresInDays:
+                  type: integer
+                  default: 365
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '201':
+          description: API key created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key:
+                    $ref: '#/components/schemas/ApiKey'
+                  secretKey:
+                    type: string
+                    description: Full API key (only shown once)
+                  warning:
+                    type: string
+
+  /api-keys/{id}:
+    delete:
+      tags: [Enterprise]
+      summary: Revoke API key
+      operationId: deleteApiKeysById
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: API key revoked
+
+  /webhook-endpoints:
+    get:
+      tags: [Enterprise]
+      summary: List webhooks
+      operationId: getWebhookEndpoints
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: List of webhooks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhooks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Webhook'
+    post:
+      tags: [Enterprise]
+      summary: Create webhook
+      operationId: postWebhookEndpoints
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, url, events]
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '201':
+          description: Webhook created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  webhook:
+                    $ref: '#/components/schemas/Webhook'
+                  secret:
+                    type: string
+                    description: Webhook signing secret (only shown once)
+
+  /sso/config:
+    get:
+      tags: [Enterprise]
+      summary: Get SSO configuration
+      operationId: getSsoConfig
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: SSO configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  configured:
+                    type: boolean
+                  config:
+                    $ref: '#/components/schemas/SsoConfig'
+    post:
+      tags: [Enterprise]
+      summary: Configure SSO
+      operationId: postSsoConfig
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [provider]
+              properties:
+                provider:
+                  type: string
+                  enum: [SAML, OIDC]
+                issuer:
+                  type: string
+                ssoUrl:
+                  type: string
+                certificate:
+                  type: string
+                clientId:
+                  type: string
+                clientSecret:
+                  type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: SSO configured
+
+  /bulk-import/jobs:
+    post:
+      tags: [Enterprise]
+      summary: Import jobs from CSV
+      operationId: postBulkImportJobs
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [csvData]
+              properties:
+                csvData:
+                  type: string
+                  description: CSV content as string
+                fileName:
+                  type: string
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '202':
+          description: Import started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  importId:
+                    type: string
+                  totalRows:
+                    type: integer
+                  job:
+                    $ref: '#/components/schemas/BulkImportJob'
+
+  /bulk-import/templates/{type}:
+    get:
+      tags: [Enterprise]
+      summary: Download CSV template
+      operationId: getBulkImportTemplatesByType
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [jobs, candidates, courses]
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '200':
+          description: CSV template file
+          content:
+            text/csv:
+              schema:
+                type: string
+
+  # ==========================================
+  # BILLING ENDPOINTS
+  # ==========================================
+
+  /billing:
+    get:
+      tags: [Billing]
+      summary: Get billing summary
+      operationId: getBilling
+      description: Returns the current subscription (if any), recent invoices, and whether Stripe is configured.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Billing summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingSummaryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /billing/checkout:
+    post:
+      tags: [Billing]
+      summary: Create a billing checkout session
+      operationId: postBillingCheckout
+      description: Creates a Stripe Checkout session for subscription upgrade. If Stripe is not configured, updates subscription tier directly.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillingCheckoutRequest'
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '200':
+          description: Checkout session created (or subscription updated when Stripe is not configured)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingCheckoutResponse'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /billing/portal:
+    post:
+      tags: [Billing]
+      summary: Create a billing portal session
+      operationId: postBillingPortal
+      description: Creates a Stripe Billing Portal session for subscription management.
+      security:
+        - bearerAuth: []
+      responses:
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '200':
+          description: Billing portal session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingPortalResponse'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /billing/invoices:
+    get:
+      tags: [Billing]
+      summary: List invoices
+      operationId: getBillingInvoices
+      description: Lists recent invoices persisted locally (typically via Stripe webhook processing).
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Invoice list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingInvoicesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  # ==========================================
+  # MODERATION ENDPOINTS
+  # ==========================================
+
+  /moderation:
+    get:
+      tags: [Moderation]
+      summary: Moderation routes index
+      operationId: getModeration
+      security: []
+      responses:
+        '200':
+          description: Available moderation routes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModerationIndexResponse'
+
+  /moderation/health:
+    get:
+      tags: [Moderation]
+      summary: Moderation health check
+      operationId: getModerationHealth
+      security: []
+      responses:
+        '200':
+          description: Moderation service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModerationHealthResponse'
+
+  /moderation/check:
+    post:
+      tags: [Moderation]
+      summary: Run an automated moderation check
+      operationId: postModerationCheck
+      description: Runs automated moderation checks and returns the decision plus optional sanitized content.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModerationCheckRequest'
+      responses:
+        '400':
+          $ref: '#/components/responses/ModerationBadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '200':
+          description: Moderation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModerationCheckResponse'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    adminKey:
+      type: apiKey
+      in: header
+      name: x-admin-key
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            jobs:read: Read job listings
+            jobs:write: Create and manage job listings
+            members:read: Read member profiles (anonymized)
+            analytics:read: Read impact analytics
+            rap:read: Read RAP compliance data
+            courses:read: Read course listings
+            mentorship:read: Read mentorship resources
+
+  responses:
+    BadRequest:
+      description: Bad request - validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized - invalid or missing authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ModerationBadRequest:
+      description: Invalid moderation check request body
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: array
+                items:
+                  type: string
+
+  schemas:
+    # ==========================================
+    # ERROR SCHEMA
+    # ==========================================
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+    # ==========================================
+    # AUTHENTICATION SCHEMAS
+    # ==========================================
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        firstName:
+          type: string
+        lastName:
+          type: string
+        userType:
+          type: string
+          enum: [MEMBER, COMPANY, MENTOR, TAFE]
+          default: MEMBER
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT access token
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+            email:
+              type: string
+            name:
+              type: string
+            userType:
+              type: string
+        message:
+          type: string
+
+    # ==========================================
+    # SOCIAL NETWORKING SCHEMAS
+    # ==========================================
+
+    SocialPost:
+      type: object
+      properties:
+        id:
+          type: string
+        authorId:
+          type: string
+        author:
+          $ref: '#/components/schemas/UserProfile'
+        type:
+          type: string
+          enum: [text, image, video, article, poll, reel]
+        content:
+          type: string
+        mediaUrls:
+          type: array
+          items:
+            type: string
+        visibility:
+          type: string
+          enum: [public, connections, private]
+        likeCount:
+          type: integer
+        commentCount:
+          type: integer
+        shareCount:
+          type: integer
+        reactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reaction'
+        userReaction:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    CreatePostRequest:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+          maxLength: 5000
+        type:
+          type: string
+          enum: [text, image, video, article, poll]
+          default: text
+        visibility:
+          type: string
+          enum: [public, connections, private]
+          default: public
+        mediaUrls:
+          type: array
+          items:
+            type: string
+
+    Reaction:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [like, love, support, celebrate, insightful, curious]
+        count:
+          type: integer
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfile'
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        postId:
+          type: string
+        authorId:
+          type: string
+        author:
+          $ref: '#/components/schemas/UserProfile'
+        content:
+          type: string
+        parentId:
+          type: string
+          nullable: true
+        likeCount:
+          type: integer
+        replyCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    Connection:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserProfile'
+        status:
+          type: string
+          enum: [pending, accepted, rejected]
+        message:
+          type: string
+        connectedAt:
+          type: string
+          format: date-time
+        mutualConnectionsCount:
+          type: integer
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum: [community, professional, support, cultural, learning]
+        coverImage:
+          type: string
+        memberCount:
+          type: integer
+        isJoined:
+          type: boolean
+        isFeatured:
+          type: boolean
+        isIndigenousFocused:
+          type: boolean
+        privacy:
+          type: string
+          enum: [public, private, restricted]
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateGroupRequest:
+      type: object
+      required: [name, type]
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 2000
+        type:
+          type: string
+          enum: [community, professional, support, cultural, learning]
+        privacy:
+          type: string
+          enum: [public, private, restricted]
+          default: public
+        topics:
+          type: array
+          items:
+            type: string
+
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [direct, group]
+        name:
+          type: string
+          nullable: true
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfile'
+        lastMessage:
+          $ref: '#/components/schemas/Message'
+        unreadCount:
+          type: integer
+        updatedAt:
+          type: string
+          format: date-time
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        conversationId:
+          type: string
+        senderId:
+          type: string
+        sender:
+          $ref: '#/components/schemas/UserProfile'
+        content:
+          type: string
+        type:
+          type: string
+          enum: [text, image, file, system]
+        status:
+          type: string
+          enum: [sending, sent, delivered, read]
+        createdAt:
+          type: string
+          format: date-time
+
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        avatar:
+          type: string
+        headline:
+          type: string
+        location:
+          type: string
+        isOnline:
+          type: boolean
+
+    # OAuth Token Response (for social login)
+    OAuthTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 3600
+        scope:
+          type: string
+
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        employment:
+          type: string
+          enum: [FULL_TIME, PART_TIME, CONTRACT, CASUAL, APPRENTICESHIP]
+        salaryLow:
+          type: integer
+        salaryHigh:
+          type: integer
+        isActive:
+          type: boolean
+        postedAt:
+          type: string
+          format: date-time
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+            industry:
+              type: string
+
+    JobListResponse:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+
+    ApplicationRequest:
+      type: object
+      properties:
+        resumeId:
+          type: string
+        coverLetter:
+          type: string
+
+    Application:
+      type: object
+      properties:
+        id:
+          type: string
+        jobId:
+          type: string
+        status:
+          type: string
+          enum: [SUBMITTED, REVIEWED, SHORTLISTED, INTERVIEW_SCHEDULED, REJECTED, HIRED]
+        createdAt:
+          type: string
+          format: date-time
+
+    MemberProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        phone:
+          type: string
+        mobNation:
+          type: string
+        skillLevel:
+          type: string
+        careerInterest:
+          type: string
+        bio:
+          type: string
+        profileCompletionPercent:
+          type: integer
+        skills:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              level:
+                type: string
+
+    MemberProfileUpdate:
+      type: object
+      properties:
+        phone:
+          type: string
+        mobNation:
+          type: string
+        skillLevel:
+          type: string
+        careerInterest:
+          type: string
+        bio:
+          type: string
+
+    MentorListResponse:
+      type: object
+      properties:
+        mentors:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              profile:
+                type: object
+                properties:
+                  bio:
+                    type: string
+                  industry:
+                    type: string
+                  location:
+                    type: string
+              activeMatches:
+                type: integer
+              maxCapacity:
+                type: integer
+
+    MentorMatchListResponse:
+      type: object
+      properties:
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/MentorMatch'
+
+    MentorMatch:
+      type: object
+      properties:
+        id:
+          type: string
+        mentorId:
+          type: string
+        menteeId:
+          type: string
+        status:
+          type: string
+          enum: [PENDING, ACTIVE, COMPLETED, DECLINED]
+        matchScore:
+          type: number
+        matchedAt:
+          type: string
+          format: date-time
+
+    CourseListResponse:
+      type: object
+      properties:
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              provider:
+                type: string
+              qualification:
+                type: string
+              duration:
+                type: string
+              price:
+                type: integer
+              isOnline:
+                type: boolean
+
+    ImpactMetrics:
+      type: object
+      properties:
+        period:
+          type: string
+        totalPlacements:
+          type: integer
+        retentionRate3m:
+          type: number
+        retentionRate12m:
+          type: number
+        averageSalaryGrowth:
+          type: number
+        trainingCompletionRate:
+          type: number
+        employerEngagementRate:
+          type: number
+
+    ReportingMetricsResponse:
+      type: object
+      properties:
+        period:
+          type: string
+          description: Requested period or "custom"
+        dateRange:
+          type: object
+          nullable: true
+          properties:
+            gte:
+              type: string
+              format: date-time
+            lte:
+              type: string
+              format: date-time
+        metrics:
+          type: object
+          properties:
+            members:
+              type: object
+              properties:
+                total:
+                  type: integer
+                label:
+                  type: string
+            employers:
+              type: object
+              properties:
+                total:
+                  type: integer
+                label:
+                  type: string
+            jobs:
+              type: object
+              properties:
+                total:
+                  type: integer
+                label:
+                  type: string
+            applications:
+              type: object
+              properties:
+                total:
+                  type: integer
+                label:
+                  type: string
+            placements:
+              type: object
+              properties:
+                total:
+                  type: integer
+                rate:
+                  type: string
+                  description: Placement rate percentage (string from toFixed)
+                label:
+                  type: string
+            retention:
+              type: object
+              properties:
+                total:
+                  type: integer
+                label:
+                  type: string
+            training:
+              type: object
+              properties:
+                total:
+                  type: integer
+                label:
+                  type: string
+            mentoring:
+              type: object
+              properties:
+                total:
+                  type: integer
+                label:
+                  type: string
+
+    ImpactMetricRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        metric:
+          type: string
+        value:
+          type: number
+        period:
+          type: string
+          enum: [MONTHLY, QUARTERLY, ANNUAL]
+        recordedAt:
+          type: string
+          format: date-time
+        metadata:
+          type: string
+          nullable: true
+
+    ImpactMetricHistoryResponse:
+      type: object
+      properties:
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImpactMetricRecord'
+
+    CohortsResponse:
+      type: object
+      properties:
+        membersByMobNation:
+          type: object
+          additionalProperties:
+            type: integer
+        companiesByIndustry:
+          type: object
+          additionalProperties:
+            type: integer
+        companiesByState:
+          type: object
+          additionalProperties:
+            type: integer
+        totals:
+          type: object
+          properties:
+            memberProfiles:
+              type: integer
+            companyProfiles:
+              type: integer
+
+    CTGReport:
+      type: object
+      properties:
+        reportType:
+          type: string
+        generatedAt:
+          type: string
+          format: date-time
+        period:
+          type: string
+        dateRange:
+          nullable: true
+          type: object
+          properties:
+            gte:
+              type: string
+              format: date-time
+            lte:
+              type: string
+              format: date-time
+        kpis:
+          type: object
+          properties:
+            employment:
+              type: object
+              properties:
+                hires:
+                  type: integer
+                jobsPosted:
+                  type: integer
+                applicationsSubmitted:
+                  type: integer
+            education:
+              type: object
+              properties:
+                trainingCompleted:
+                  type: integer
+            participation:
+              type: object
+              properties:
+                membersJoined:
+                  type: integer
+            retention:
+              type: object
+              properties:
+                month3:
+                  type: integer
+                month6:
+                  type: integer
+                month12:
+                  type: integer
+                note:
+                  type: string
+        notes:
+          type: array
+          items:
+            type: string
+
+    RAPOverview:
+      type: object
+      properties:
+        periodDays:
+          type: integer
+        placements:
+          type: integer
+        month1RetentionPercent:
+          type: number
+        diversityMetrics:
+          type: object
+
+    RAPAdminPlacementsSummary:
+      type: object
+      properties:
+        total:
+          type: integer
+        byCompany:
+          type: object
+          additionalProperties:
+            type: integer
+        timeseries:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                description: Date in YYYY-MM-DD format
+              count:
+                type: integer
+
+    RAPCertificationNextLevel:
+      type: object
+      properties:
+        level:
+          type: string
+          enum: [BRONZE, SILVER, GOLD, PLATINUM]
+        pointsNeeded:
+          type: integer
+        label:
+          type: string
+        description:
+          type: string
+        threshold:
+          type: integer
+          nullable: true
+
+    RAPCertificationStatus:
+      type: object
+      properties:
+        certified:
+          type: boolean
+        error:
+          type: string
+          nullable: true
+        currentLevel:
+          type: string
+          nullable: true
+          enum: [BRONZE, SILVER, GOLD, PLATINUM]
+        label:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        certifiedAt:
+          type: string
+          format: date-time
+          nullable: true
+        totalPoints:
+          type: integer
+          nullable: true
+        nextLevel:
+          $ref: '#/components/schemas/RAPCertificationNextLevel'
+
+    RAPCertificationEligibility:
+      type: object
+      properties:
+        eligible:
+          type: boolean
+        currentPoints:
+          type: integer
+        wouldAchieve:
+          type: string
+          nullable: true
+          enum: [BRONZE, SILVER, GOLD, PLATINUM]
+        threshold:
+          type: integer
+
+    RAPCertificationUpdateResult:
+      type: object
+      properties:
+        certified:
+          type: boolean
+        currentLevel:
+          type: string
+          nullable: true
+          enum: [BRONZE, SILVER, GOLD, PLATINUM]
+        label:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        totalPoints:
+          type: integer
+          nullable: true
+        hiredPlacements:
+          type: integer
+          nullable: true
+        retentionMilestones:
+          type: integer
+          nullable: true
+        nextLevel:
+          $ref: '#/components/schemas/RAPCertificationNextLevel'
+
+    ConsentPreferences:
+      type: object
+      properties:
+        analyticsSharing:
+          type: boolean
+          description: Allow anonymized data to be used in platform analytics
+        researchParticipation:
+          type: boolean
+          description: Participate in research studies (with separate consent per study)
+        communityDataBenefit:
+          type: boolean
+          description: Allow data to benefit community outcomes (CDBA compliant)
+        marketingCommunications:
+          type: boolean
+          description: Receive marketing communications
+        thirdPartySharing:
+          type: boolean
+          description: Allow data sharing with verified partners
+        updatedAt:
+          type: string
+          format: date-time
+
+    ConsentGetResponse:
+      type: object
+      properties:
+        consent:
+          $ref: '#/components/schemas/ConsentPreferences'
+
+    ConsentUpdateResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        consent:
+          $ref: '#/components/schemas/ConsentPreferences'
+
+    DataExportRequestResponse:
+      type: object
+      properties:
+        exportId:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+        estimatedCompletion:
+          type: string
+          format: date-time
+
+    DataExportStatusResponse:
+      type: object
+      properties:
+        exportId:
+          type: string
+        status:
+          type: string
+        format:
+          type: string
+        downloadUrl:
+          type: string
+          nullable: true
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    DeletionRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        deletionDate:
+          type: string
+          format: date-time
+        gracePeriodDays:
+          type: integer
+        note:
+          type: string
+
+    CDBAInfo:
+      type: object
+      properties:
+        cdbaEnrolled:
+          type: boolean
+        description:
+          type: string
+        benefits:
+          type: array
+          items:
+            type: string
+        dataUsage:
+          type: object
+          properties:
+            included:
+              type: array
+              items:
+                type: string
+            excluded:
+              type: array
+              items:
+                type: string
+
+    OAuthClientCreateRequest:
+      type: object
+      required: [name, companyId]
+      properties:
+        name:
+          type: string
+        companyId:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+
+    OAuthClientCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+        name:
+          type: string
+        allowedScopes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        warning:
+          type: string
+
+    OAuthClientListResponse:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              clientId:
+                type: string
+              name:
+                type: string
+              description:
+                type: string
+                nullable: true
+              allowedScopes:
+                type: string
+              isActive:
+                type: boolean
+              lastUsedAt:
+                type: string
+                format: date-time
+                nullable: true
+              createdAt:
+                type: string
+                format: date-time
+
+    WhiteLabelConfig:
+      type: object
+      properties:
+        isDefault:
+          type: boolean
+        slug:
+          type: string
+          nullable: true
+        name:
+          type: string
+        logoUrl:
+          type: string
+        faviconUrl:
+          type: string
+          nullable: true
+        primaryColor:
+          type: string
+        secondaryColor:
+          type: string
+        accentColor:
+          type: string
+        footerText:
+          type: string
+          nullable: true
+        customCss:
+          type: string
+          nullable: true
+        supportEmail:
+          type: string
+          nullable: true
+        supportPhone:
+          type: string
+          nullable: true
+        termsUrl:
+          type: string
+          nullable: true
+        privacyUrl:
+          type: string
+          nullable: true
+        features:
+          type: object
+          nullable: true
+
+    WhiteLabelTenant:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        name:
+          type: string
+        domain:
+          type: string
+          nullable: true
+        ownerId:
+          type: string
+        isActive:
+          type: boolean
+        logoUrl:
+          type: string
+          nullable: true
+        faviconUrl:
+          type: string
+          nullable: true
+        primaryColor:
+          type: string
+          nullable: true
+        secondaryColor:
+          type: string
+          nullable: true
+        accentColor:
+          type: string
+          nullable: true
+        footerText:
+          type: string
+          nullable: true
+        customCss:
+          type: string
+          nullable: true
+        customJs:
+          type: string
+          nullable: true
+        supportEmail:
+          type: string
+          nullable: true
+        supportPhone:
+          type: string
+          nullable: true
+        termsUrl:
+          type: string
+          nullable: true
+        privacyUrl:
+          type: string
+          nullable: true
+        features:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    WhiteLabelTenantListResponse:
+      type: object
+      properties:
+        tenants:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              slug:
+                type: string
+              name:
+                type: string
+              domain:
+                type: string
+                nullable: true
+              isActive:
+                type: boolean
+              ownerId:
+                type: string
+              createdAt:
+                type: string
+                format: date-time
+
+    WhiteLabelTenantCreateRequest:
+      type: object
+      required: [slug, name, ownerId]
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        domain:
+          type: string
+          nullable: true
+        ownerId:
+          type: string
+        logoUrl:
+          type: string
+          nullable: true
+        faviconUrl:
+          type: string
+          nullable: true
+        primaryColor:
+          type: string
+          nullable: true
+        secondaryColor:
+          type: string
+          nullable: true
+        accentColor:
+          type: string
+          nullable: true
+        footerText:
+          type: string
+          nullable: true
+        customCss:
+          type: string
+          nullable: true
+        supportEmail:
+          type: string
+          nullable: true
+        supportPhone:
+          type: string
+          nullable: true
+        termsUrl:
+          type: string
+          nullable: true
+        privacyUrl:
+          type: string
+          nullable: true
+        features:
+          type: object
+          nullable: true
+
+    WhiteLabelTenantUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        domain:
+          type: string
+        logoUrl:
+          type: string
+        faviconUrl:
+          type: string
+        primaryColor:
+          type: string
+        secondaryColor:
+          type: string
+        accentColor:
+          type: string
+        footerText:
+          type: string
+        customCss:
+          type: string
+        customJs:
+          type: string
+        supportEmail:
+          type: string
+        supportPhone:
+          type: string
+        termsUrl:
+          type: string
+        privacyUrl:
+          type: string
+        features:
+          type: object
+        isActive:
+          type: boolean
+
+    # ------------------------------------------------------------------
+    # AI Wellness Schemas
+    # ------------------------------------------------------------------
+
+    WellnessResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        tips:
+          type: array
+          items:
+            type: string
+          description: Wellness tips from AI or fallback
+        recommendedCourses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              hours:
+                type: integer
+        communityResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommunityResource'
+        elderSupport:
+          $ref: '#/components/schemas/ElderSupport'
+        source:
+          type: string
+          enum: [ai, fallback, safety]
+
+    CommunityResource:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Organisation or service name
+        description:
+          type: string
+          description: Brief description of the service
+        phone:
+          type: string
+          nullable: true
+          description: Contact phone number
+        url:
+          type: string
+          format: uri
+          nullable: true
+          description: Website URL
+
+    ElderSupport:
+      type: object
+      properties:
+        available:
+          type: boolean
+          description: Whether elder support is available
+        description:
+          type: string
+          description: Description of elder support options
+        requestPath:
+          type: string
+          description: URL path to request elder connection
+
+    # ------------------------------------------------------------------
+    # Employer Analytics Schemas
+    # ------------------------------------------------------------------
+
+    EmployerAnalyticsOverview:
+      type: object
+      properties:
+        period:
+          type: string
+        dateRange:
+          type: object
+          properties:
+            start:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        overview:
+          type: object
+          properties:
+            totalJobs:
+              type: integer
+            activeJobs:
+              type: integer
+            totalViews:
+              type: integer
+            totalApplies:
+              type: integer
+            avgConversionRate:
+              type: number
+        totalViews:
+          type: integer
+        totalApplications:
+          type: integer
+        totalInterviews:
+          type: integer
+        totalHires:
+          type: integer
+        hiredCount:
+          type: integer
+        avgTimeToHire:
+          type: integer
+          nullable: true
+        recentEvents:
+          type: object
+        applicationsByStatus:
+          type: object
+        applicationFunnel:
+          type: object
+        jobs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              isActive:
+                type: boolean
+              analytics:
+                type: object
+                properties:
+                  viewCount:
+                    type: integer
+                  applyCount:
+                    type: integer
+                  conversionRate:
+                    type: number
+
+    JobAnalyticsDetail:
+      type: object
+      properties:
+        job:
+          type: object
+          properties:
+            id:
+              type: string
+            title:
+              type: string
+            isActive:
+              type: boolean
+        period:
+          type: string
+        analytics:
+          type: object
+          properties:
+            viewCount:
+              type: integer
+            uniqueViews:
+              type: integer
+            applyCount:
+              type: integer
+            saveCount:
+              type: integer
+            shareCount:
+              type: integer
+            conversionRate:
+              type: number
+        dailyData:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+              views:
+                type: integer
+              applies:
+                type: integer
+              saves:
+                type: integer
+              shares:
+                type: integer
+        sources:
+          type: array
+          items:
+            type: object
+            properties:
+              source:
+                type: string
+              count:
+                type: integer
+        recentApplications:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+              createdAt:
+                type: string
+                format: date-time
+
+    # ============================================
+    # Enterprise Feature Schemas
+    # ============================================
+
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keyPrefix:
+          type: string
+          description: First 12 characters of the key for identification
+        permissions:
+          type: array
+          items:
+            type: string
+            enum: [read, write, admin]
+        lastUsedAt:
+          type: string
+          format: date-time
+          nullable: true
+        expiresAt:
+          type: string
+          format: date-time
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+        retryCount:
+          type: integer
+          default: 3
+        createdAt:
+          type: string
+          format: date-time
+
+    SsoConfig:
+      type: object
+      properties:
+        id:
+          type: string
+        provider:
+          type: string
+          enum: [SAML, OIDC]
+        issuer:
+          type: string
+        ssoUrl:
+          type: string
+          format: uri
+        isActive:
+          type: boolean
+
+    # ============================================
+    # Phase 2 Billing Schemas
+    # ============================================
+
+    CompanySubscription:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        tier:
+          type: string
+          enum: [FREE, STARTER, PROFESSIONAL, ENTERPRISE, RAP]
+        stripeCustomerId:
+          type: string
+          nullable: true
+        stripeSubscriptionId:
+          type: string
+          nullable: true
+        status:
+          type: string
+          description: Subscription status
+          enum: [active, canceled, past_due]
+        currentPeriodStart:
+          type: string
+          format: date-time
+          nullable: true
+        currentPeriodEnd:
+          type: string
+          format: date-time
+          nullable: true
+        cancelAtPeriodEnd:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        subscriptionId:
+          type: string
+          nullable: true
+        stripeInvoiceId:
+          type: string
+          nullable: true
+        amount:
+          type: integer
+          description: Amount in cents
+        amountPaid:
+          type: integer
+          description: Amount paid in cents (legacy)
+        currency:
+          type: string
+          example: aud
+        status:
+          type: string
+          description: Invoice status
+          example: paid
+        invoiceUrl:
+          type: string
+          format: uri
+          nullable: true
+        invoicePdf:
+          type: string
+          format: uri
+          nullable: true
+        pdfUrl:
+          type: string
+          format: uri
+          nullable: true
+        periodStart:
+          type: string
+          format: date-time
+          nullable: true
+        periodEnd:
+          type: string
+          format: date-time
+          nullable: true
+        paidAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    BillingSummaryResponse:
+      type: object
+      properties:
+        subscription:
+          allOf:
+            - $ref: '#/components/schemas/CompanySubscription'
+          nullable: true
+        invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        stripeConfigured:
+          type: boolean
+
+    BillingCheckoutRequest:
+      type: object
+      required: [tier]
+      properties:
+        tier:
+          type: string
+          enum: [STARTER, PROFESSIONAL, ENTERPRISE, RAP]
+
+    BillingCheckoutResponse:
+      type: object
+      description: |-
+        When Stripe is configured, includes a Checkout URL.
+        When Stripe is not configured, may include the updated subscription and a message.
+      properties:
+        url:
+          type: string
+          format: uri
+          nullable: true
+        checkoutUrl:
+          type: string
+          format: uri
+          nullable: true
+        sessionId:
+          type: string
+          nullable: true
+        subscription:
+          allOf:
+            - $ref: '#/components/schemas/CompanySubscription'
+          nullable: true
+        message:
+          type: string
+          nullable: true
+
+    BillingPortalResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+        portalUrl:
+          type: string
+          format: uri
+
+    BillingInvoicesResponse:
+      type: object
+      properties:
+        invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        total:
+          type: integer
+
+    # ============================================
+    # Phase 2 Moderation Schemas
+    # ============================================
+
+    ModerationHealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ok]
+
+    ModerationIndexResponse:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            type: string
+
+    ModerationCheckRequest:
+      type: object
+      required: [content, contentType]
+      properties:
+        content:
+          type: string
+          minLength: 1
+          maxLength: 10000
+        contentType:
+          type: string
+          enum: [post, comment, message, profile, group, image, video]
+        context:
+          type: object
+          properties:
+            isReply:
+              type: boolean
+            targetUserId:
+              type: string
+            communityId:
+              type: string
+
+    ModerationValidationError:
+      type: object
+      description: Validation error shape returned by Zod when calling `.flatten()`.
+      properties:
+        formErrors:
+          type: array
+          items:
+            type: string
+        fieldErrors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+    ModerationCheckResponse:
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/ModerationResult'
+
+    ModerationResult:
+      type: object
+      properties:
+        isAllowed:
+          type: boolean
+        confidence:
+          type: number
+        action:
+          type: string
+          enum: [approve, flag, remove, warn, suspend, ban]
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ViolationDetail'
+        sanitizedContent:
+          type: string
+          nullable: true
+        requiresHumanReview:
+          type: boolean
+        metadata:
+          type: object
+          additionalProperties: true
+
+    ViolationDetail:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            [
+              spam,
+              harassment,
+              hate_speech,
+              violence,
+              adult_content,
+              misinformation,
+              cultural_insensitivity,
+              personal_info,
+              scam,
+              other,
+            ]
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        description:
+          type: string
+        matchedPatterns:
+          type: array
+          items:
+            type: string
+
+    BulkImportJob:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [JOBS, CANDIDATES, COURSES]
+        fileName:
+          type: string
+        status:
+          type: string
+          enum: [PENDING, PROCESSING, COMPLETED, FAILED]
+        totalRows:
+          type: integer
+        processedRows:
+          type: integer
+        failedRows:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time

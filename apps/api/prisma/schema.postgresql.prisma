@@ -1,0 +1,644 @@
+// This is the PostgreSQL production schema
+// Copy this to schema.prisma and run migrations when deploying to production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// Enums (PostgreSQL native enums)
+// ==========================================
+
+enum UserType {
+  MEMBER
+  COMPANY
+  GOVERNMENT
+  INSTITUTION
+  FIFO
+  MENTOR
+  TAFE
+  ADMIN
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  CASUAL
+  APPRENTICESHIP
+  TRAINEESHIP
+}
+
+enum JobStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  CLOSED
+  FILLED
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  VIEWED
+  SHORTLISTED
+  INTERVIEW
+  OFFERED
+  HIRED
+  REJECTED
+  WITHDRAWN
+}
+
+enum AuditCategory {
+  AUTH
+  USER
+  SECURITY
+  ADMIN
+  JOB
+  APPLICATION
+  MENTORSHIP
+  COURSE
+  DATA
+  SYSTEM
+}
+
+enum AuditSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum SessionStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+// ==========================================
+// Core User Models
+// ==========================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  userType  UserType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Two-Factor Authentication
+  twoFactorEnabled     Boolean  @default(false)
+  twoFactorSecret      String?
+  twoFactorBackupCodes String?
+  
+  // Session tracking
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
+  failedLoginAttempts  Int      @default(0)
+  lockedUntil          DateTime?
+
+  // Profile relations
+  memberProfile      MemberProfile?
+  companyProfile     CompanyProfile?
+  governmentProfile  GovernmentProfile?
+  institutionProfile InstitutionProfile?
+  fifoProfile        FifoProfile?
+  mentorProfile      MentorProfile?
+  
+  // Content relations
+  uploadedFiles    UploadedFile[]
+  jobs             Job[]
+  applications     JobApplication[]
+  savedJobs        SavedJob[]
+  messages         ApplicationMessage[]
+  mentorSessions   MentorSession[] @relation("MentorSessions")
+  menteeSessions   MentorSession[] @relation("MenteeSessions")
+  userSkills       UserSkill[]
+  courseEnrolments CourseEnrolment[]
+  institutionCourses Course[] @relation("InstitutionCourses")
+  coursePayments   CoursePayment[] @relation("CoursePaymentsUser")
+  
+  // Security relations
+  sessions         UserSession[]
+  auditLogs        AuditLog[]
+  oauthTokens      OAuthToken[]
+
+  @@index([email])
+  @@index([userType])
+  @@index([createdAt])
+  @@index([lastLoginAt])
+}
+
+// ==========================================
+// Security Models
+// ==========================================
+
+model UserSession {
+  id           String        @id @default(cuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceInfo   String?
+  userAgent    String?
+  ipAddress    String?
+  status       SessionStatus @default(ACTIVE)
+  lastActiveAt DateTime      @default(now())
+  expiresAt    DateTime
+  createdAt    DateTime      @default(now())
+
+  @@index([userId])
+  @@index([status])
+  @@index([expiresAt])
+}
+
+model AuditLog {
+  id               String        @id @default(cuid())
+  userId           String?
+  user             User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  category         AuditCategory
+  event            String
+  severity         AuditSeverity @default(LOW)
+  targetUserId     String?
+  targetResourceId String?
+  targetResourceType String?
+  metadata         Json?
+  ipAddress        String?
+  userAgent        String?
+  timestamp        DateTime      @default(now())
+
+  @@index([userId])
+  @@index([category])
+  @@index([event])
+  @@index([severity])
+  @@index([timestamp])
+  @@index([targetUserId])
+}
+
+model OAuthToken {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider     String   // 'google', 'linkedin', 'refresh'
+  accessToken  String
+  refreshToken String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([provider])
+  @@index([expiresAt])
+}
+
+// ==========================================
+// Member Profile
+// ==========================================
+
+model MemberProfile {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName                String?
+  lastName                 String?
+  phone                    String?
+  mobNation                String?
+  skillLevel               String?
+  careerInterest           String?
+  bio                      String?  @db.Text
+  profilePhoto             String?
+  resumeUrl                String?
+  profileCompletionPercent Int      @default(0)
+  profileViews             Int      @default(0)
+  applicationCount         Int      @default(0)
+  
+  // Location
+  suburb                   String?
+  state                    String?
+  postcode                 String?
+  willingToRelocate        Boolean  @default(false)
+  
+  // Preferences
+  preferredJobTypes        String[] @default([])
+  preferredIndustries      String[] @default([])
+  availabilityDate         DateTime?
+  
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@index([mobNation])
+  @@index([state])
+}
+
+// ==========================================
+// Company Profile
+// ==========================================
+
+model CompanyProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name             String
+  abn              String?
+  industry         String?
+  size             String?
+  logo             String?
+  website          String?
+  phone            String?
+  description      String?  @db.Text
+  
+  // Location
+  address          String?
+  suburb           String?
+  state            String?
+  postcode         String?
+  
+  // Verification
+  isVerified       Boolean  @default(false)
+  verifiedAt       DateTime?
+  rapStatus        String?  // Reconciliation Action Plan status
+  
+  // Subscription
+  subscriptionTier String   @default("free")
+  subscriptionEndsAt DateTime?
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([name])
+  @@index([isVerified])
+  @@index([industry])
+}
+
+// ==========================================
+// Other Profiles (Simplified)
+// ==========================================
+
+model GovernmentProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  department   String?
+  jurisdiction String?
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model InstitutionProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String?
+  type            String?  // TAFE, University, RTO
+  rtoCode         String?
+  contactName     String?
+  contactEmail    String?
+  contactPhone    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model FifoProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName  String?
+  rostering    String?
+  locationBase String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model MentorProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName    String?
+  lastName     String?
+  phone        String?
+  expertise    String[]  @default([])
+  bio          String?   @db.Text
+  profilePhoto String?
+  hourlyRate   Decimal?  @db.Decimal(10, 2)
+  isAvailable  Boolean   @default(true)
+  rating       Decimal?  @db.Decimal(3, 2)
+  reviewCount  Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([isAvailable])
+  @@index([rating])
+}
+
+// ==========================================
+// Jobs
+// ==========================================
+
+model Job {
+  id               String      @id @default(cuid())
+  userId           String
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String
+  description      String      @db.Text
+  jobType          JobType     @default(FULL_TIME)
+  status           JobStatus   @default(DRAFT)
+  
+  // Location
+  location         String?
+  suburb           String?
+  state            String?
+  isRemote         Boolean     @default(false)
+  
+  // Compensation
+  salaryMin        Decimal?    @db.Decimal(12, 2)
+  salaryMax        Decimal?    @db.Decimal(12, 2)
+  salaryType       String?     // 'annual', 'hourly', 'daily'
+  
+  // Requirements
+  skillsRequired   String[]    @default([])
+  experienceLevel  String?
+  educationLevel   String?
+  
+  // Indigenous focus
+  indigenousOnly   Boolean     @default(false)
+  culturalSupport  Boolean     @default(false)
+  
+  // Dates
+  closingDate      DateTime?
+  startDate        DateTime?
+  publishedAt      DateTime?
+  
+  // Metrics
+  viewCount        Int         @default(0)
+  applicationCount Int         @default(0)
+  
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  // Relations
+  applications     JobApplication[]
+  savedBy          SavedJob[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([jobType])
+  @@index([state])
+  @@index([publishedAt])
+  @@index([closingDate])
+  @@fulltext([title, description])
+}
+
+model JobApplication {
+  id             String            @id @default(cuid())
+  userId         String
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId          String
+  job            Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  status         ApplicationStatus @default(SUBMITTED)
+  coverLetter    String?           @db.Text
+  resumeUrl      String?
+  notes          String?           @db.Text
+  
+  // Workflow
+  submittedAt    DateTime          @default(now())
+  viewedAt       DateTime?
+  shortlistedAt  DateTime?
+  interviewAt    DateTime?
+  decidedAt      DateTime?
+  
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  // Relations
+  messages       ApplicationMessage[]
+
+  @@unique([userId, jobId])
+  @@index([jobId])
+  @@index([status])
+  @@index([submittedAt])
+}
+
+model SavedJob {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobId])
+  @@index([userId])
+}
+
+model ApplicationMessage {
+  id            String         @id @default(cuid())
+  applicationId String
+  application   JobApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content       String         @db.Text
+  isRead        Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+
+  @@index([applicationId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// ==========================================
+// Skills
+// ==========================================
+
+model Skill {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  category    String?
+  description String?
+  createdAt   DateTime    @default(now())
+  
+  userSkills  UserSkill[]
+}
+
+model UserSkill {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skillId      String
+  skill        Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  proficiency  String?  // 'beginner', 'intermediate', 'advanced', 'expert'
+  yearsOfExp   Int?
+  isVerified   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@unique([userId, skillId])
+}
+
+// ==========================================
+// Mentorship
+// ==========================================
+
+model MentorSession {
+  id           String   @id @default(cuid())
+  mentorId     String
+  mentor       User     @relation("MentorSessions", fields: [mentorId], references: [id], onDelete: Cascade)
+  menteeId     String
+  mentee       User     @relation("MenteeSessions", fields: [menteeId], references: [id], onDelete: Cascade)
+  scheduledAt  DateTime
+  duration     Int      @default(60) // minutes
+  status       String   @default("scheduled") // 'scheduled', 'completed', 'cancelled'
+  meetingUrl   String?
+  notes        String?  @db.Text
+  rating       Int?
+  feedback     String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([mentorId])
+  @@index([menteeId])
+  @@index([scheduledAt])
+  @@index([status])
+}
+
+// ==========================================
+// Courses
+// ==========================================
+
+model Course {
+  id            String   @id @default(cuid())
+  institutionId String?
+  institution   User?    @relation("InstitutionCourses", fields: [institutionId], references: [id], onDelete: SetNull)
+  title         String
+  description   String?  @db.Text
+  category      String?
+  level         String?  // 'certificate', 'diploma', 'degree'
+  duration      String?
+  mode          String?  // 'online', 'in-person', 'hybrid'
+  price         Decimal? @db.Decimal(10, 2)
+  isPublished   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  enrolments    CourseEnrolment[]
+  payments      CoursePayment[]
+
+  @@index([institutionId])
+  @@index([category])
+  @@index([isPublished])
+  @@fulltext([title, description])
+}
+
+model CourseEnrolment {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  status      String   @default("enrolled") // 'enrolled', 'in_progress', 'completed', 'dropped'
+  progress    Int      @default(0)
+  enrolledAt  DateTime @default(now())
+  completedAt DateTime?
+
+  @@unique([userId, courseId])
+  @@index([status])
+}
+
+model CoursePayment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation("CoursePaymentsUser", fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  amount    Decimal  @db.Decimal(10, 2)
+  currency  String   @default("AUD")
+  status    String   @default("pending") // 'pending', 'completed', 'failed', 'refunded'
+  stripeId  String?
+  paidAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([status])
+}
+
+// ==========================================
+// Files
+// ==========================================
+
+model UploadedFile {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  purpose      String?  // 'resume', 'profile_photo', 'document'
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([purpose])
+}
+
+// ==========================================
+// Platform Features
+// ==========================================
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  type        String   @default("info") // 'info', 'warning', 'success', 'error'
+  targetRoles String[] @default([])
+  isActive    Boolean  @default(true)
+  startsAt    DateTime @default(now())
+  endsAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([startsAt])
+  @@index([endsAt])
+}
+
+model CulturalEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  eventDate   DateTime
+  location    String?
+  isNational  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([eventDate])
+  @@index([isNational])
+}
+
+// ==========================================
+// Background Jobs (for monitoring)
+// ==========================================
+
+model BackgroundJob {
+  id           String   @id @default(cuid())
+  type         String
+  status       String   @default("pending") // 'pending', 'running', 'completed', 'failed'
+  data         Json?
+  result       Json?
+  error        String?
+  attempts     Int      @default(0)
+  maxAttempts  Int      @default(3)
+  priority     Int      @default(0)
+  scheduledAt  DateTime @default(now())
+  startedAt    DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime @default(now())
+
+  @@index([type])
+  @@index([status])
+  @@index([scheduledAt])
+  @@index([priority])
+}

@@ -1,0 +1,188 @@
+{
+  "consents": {
+    "cmjq1bvma0000144a1yp80r5k": {
+      "analyticsSharing": true,
+      "researchParticipation": false,
+      "communityDataBenefit": true,
+      "marketingCommunications": false,
+      "thirdPartySharing": false,
+      "updatedAt": "2025-12-28T18:00:30.078Z"
+    },
+    "cmjq1c87a000014j09034p9w4": {
+      "analyticsSharing": true,
+      "researchParticipation": false,
+      "communityDataBenefit": true,
+      "marketingCommunications": false,
+      "thirdPartySharing": false,
+      "updatedAt": "2025-12-28T18:00:45.413Z"
+    },
+    "cmjq1cmrc000414j0fi2oxy4m": {
+      "analyticsSharing": true,
+      "researchParticipation": false,
+      "communityDataBenefit": true,
+      "marketingCommunications": false,
+      "thirdPartySharing": false,
+      "updatedAt": "2025-12-28T18:01:04.172Z"
+    }
+  },
+  "exports": {
+    "b5fbcd48-b2c9-48ac-8b12-f85f9ef5ea6d": {
+      "id": "b5fbcd48-b2c9-48ac-8b12-f85f9ef5ea6d",
+      "userId": "cmjq1bvma0000144a1yp80r5k",
+      "format": "json",
+      "includeFiles": true,
+      "status": "completed",
+      "createdAt": "2025-12-28T18:00:30.129Z",
+      "completedAt": "2025-12-28T18:00:30.160Z",
+      "downloadUrl": "/data-sovereignty/export/b5fbcd48-b2c9-48ac-8b12-f85f9ef5ea6d/download",
+      "expiresAt": "2026-01-04T18:00:30.160Z",
+      "exportData": "{\n  \"exportedAt\": \"2025-12-28T18:00:30.158Z\",\n  \"user\": {\n    \"id\": \"cmjq1bvma0000144a1yp80r5k\",\n    \"email\": \"privacy.test.1766944828@example.com\",\n    \"userType\": \"MEMBER\",\n    \"createdAt\": \"2025-12-28T18:00:28.883Z\",\n    \"updatedAt\": \"2025-12-28T18:00:28.883Z\"\n  },\n  \"profiles\": {\n    \"member\": null,\n    \"mentor\": null,\n    \"company\": null\n  },\n  \"applications\": [],\n  \"mentorship\": {\n    \"sessions\": []\n  },\n  \"skills\": [],\n  \"badges\": [],\n  \"training\": [],\n  \"community\": {\n    \"forumPosts\": []\n  },\n  \"consent\": {\n    \"analyticsSharing\": true,\n    \"researchParticipation\": false,\n    \"communityDataBenefit\": true,\n    \"marketingCommunications\": false,\n    \"thirdPartySharing\": false,\n    \"updatedAt\": \"2025-12-28T18:00:30.078Z\"\n  },\n  \"files\": []\n}",
+      "errorMessage": null
+    },
+    "aaca597d-ba25-4dc5-8397-87084f395341": {
+      "id": "aaca597d-ba25-4dc5-8397-87084f395341",
+      "userId": "cmjq1c87a000014j09034p9w4",
+      "format": "json",
+      "includeFiles": true,
+      "status": "completed",
+      "createdAt": "2025-12-28T18:00:45.475Z",
+      "completedAt": "2025-12-28T18:00:45.489Z",
+      "downloadUrl": "/data-sovereignty/export/aaca597d-ba25-4dc5-8397-87084f395341/download",
+      "expiresAt": "2026-01-04T18:00:45.489Z",
+      "exportData": "{\n  \"exportedAt\": \"2025-12-28T18:00:45.488Z\",\n  \"user\": {\n    \"id\": \"cmjq1c87a000014j09034p9w4\",\n    \"email\": \"privacy.test.1766944845@example.com\",\n    \"userType\": \"MEMBER\",\n    \"createdAt\": \"2025-12-28T18:00:45.190Z\",\n    \"updatedAt\": \"2025-12-28T18:00:45.190Z\"\n  },\n  \"profiles\": {\n    \"member\": null,\n    \"mentor\": null,\n    \"company\": null\n  },\n  \"applications\": [],\n  \"mentorship\": {\n    \"sessions\": []\n  },\n  \"skills\": [],\n  \"badges\": [],\n  \"training\": [],\n  \"community\": {\n    \"forumPosts\": []\n  },\n  \"consent\": {\n    \"analyticsSharing\": true,\n    \"researchParticipation\": false,\n    \"communityDataBenefit\": true,\n    \"marketingCommunications\": false,\n    \"thirdPartySharing\": false,\n    \"updatedAt\": \"2025-12-28T18:00:45.413Z\"\n  },\n  \"files\": []\n}",
+      "errorMessage": null
+    },
+    "d48b19d4-72a4-447d-b6dd-5a943a0aec14": {
+      "id": "d48b19d4-72a4-447d-b6dd-5a943a0aec14",
+      "userId": "cmjq1cstz000614j0mjvcou12",
+      "format": "json",
+      "includeFiles": true,
+      "status": "completed",
+      "createdAt": "2025-12-28T18:01:11.992Z",
+      "completedAt": "2025-12-28T18:01:12.004Z",
+      "downloadUrl": "/data-sovereignty/export/d48b19d4-72a4-447d-b6dd-5a943a0aec14/download",
+      "expiresAt": "2026-01-04T18:01:12.004Z",
+      "exportData": "{\n  \"exportedAt\": \"2025-12-28T18:01:12.003Z\",\n  \"user\": {\n    \"id\": \"cmjq1cstz000614j0mjvcou12\",\n    \"email\": \"privacy.export.1766944871@example.com\",\n    \"userType\": \"MEMBER\",\n    \"createdAt\": \"2025-12-28T18:01:11.927Z\",\n    \"updatedAt\": \"2025-12-28T18:01:11.927Z\"\n  },\n  \"profiles\": {\n    \"member\": null,\n    \"mentor\": null,\n    \"company\": null\n  },\n  \"applications\": [],\n  \"mentorship\": {\n    \"sessions\": []\n  },\n  \"skills\": [],\n  \"badges\": [],\n  \"training\": [],\n  \"community\": {\n    \"forumPosts\": []\n  },\n  \"consent\": null,\n  \"files\": []\n}",
+      "errorMessage": null
+    }
+  },
+  "deletions": {
+    "cmjq1cyv6000814j00xf7jb1y": {
+      "userId": "cmjq1cyv6000814j00xf7jb1y",
+      "reason": "test",
+      "status": "cancelled",
+      "scheduledDeletionAt": "2026-01-27T18:01:19.799Z",
+      "createdAt": "2025-12-28T18:01:19.799Z",
+      "cancelledAt": "2025-12-28T18:01:19.835Z"
+    }
+  },
+  "audit": [
+    {
+      "action": "CONSENT_UPDATED",
+      "userId": "cmjq1bvma0000144a1yp80r5k",
+      "metadata": {
+        "analyticsSharing": true,
+        "researchParticipation": false,
+        "communityDataBenefit": true,
+        "marketingCommunications": false,
+        "thirdPartySharing": false
+      },
+      "createdAt": "2025-12-28T18:00:30.080Z"
+    },
+    {
+      "action": "DATA_EXPORT_REQUESTED",
+      "userId": "cmjq1bvma0000144a1yp80r5k",
+      "metadata": {
+        "exportId": "b5fbcd48-b2c9-48ac-8b12-f85f9ef5ea6d",
+        "format": "json",
+        "includeFiles": true
+      },
+      "createdAt": "2025-12-28T18:00:30.130Z"
+    },
+    {
+      "action": "DATA_EXPORT_COMPLETED",
+      "userId": "cmjq1bvma0000144a1yp80r5k",
+      "metadata": {
+        "exportId": "b5fbcd48-b2c9-48ac-8b12-f85f9ef5ea6d"
+      },
+      "createdAt": "2025-12-28T18:00:30.161Z"
+    },
+    {
+      "action": "CONSENT_UPDATED",
+      "userId": "cmjq1c87a000014j09034p9w4",
+      "metadata": {
+        "analyticsSharing": true,
+        "researchParticipation": false,
+        "communityDataBenefit": true,
+        "marketingCommunications": false,
+        "thirdPartySharing": false
+      },
+      "createdAt": "2025-12-28T18:00:45.413Z"
+    },
+    {
+      "action": "DATA_EXPORT_REQUESTED",
+      "userId": "cmjq1c87a000014j09034p9w4",
+      "metadata": {
+        "exportId": "aaca597d-ba25-4dc5-8397-87084f395341",
+        "format": "json",
+        "includeFiles": true
+      },
+      "createdAt": "2025-12-28T18:00:45.476Z"
+    },
+    {
+      "action": "DATA_EXPORT_COMPLETED",
+      "userId": "cmjq1c87a000014j09034p9w4",
+      "metadata": {
+        "exportId": "aaca597d-ba25-4dc5-8397-87084f395341"
+      },
+      "createdAt": "2025-12-28T18:00:45.491Z"
+    },
+    {
+      "action": "CONSENT_UPDATED",
+      "userId": "cmjq1cmrc000414j0fi2oxy4m",
+      "metadata": {
+        "analyticsSharing": true,
+        "researchParticipation": false,
+        "communityDataBenefit": true,
+        "marketingCommunications": false,
+        "thirdPartySharing": false
+      },
+      "createdAt": "2025-12-28T18:01:04.173Z"
+    },
+    {
+      "action": "DATA_EXPORT_REQUESTED",
+      "userId": "cmjq1cstz000614j0mjvcou12",
+      "metadata": {
+        "exportId": "d48b19d4-72a4-447d-b6dd-5a943a0aec14",
+        "format": "json",
+        "includeFiles": true
+      },
+      "createdAt": "2025-12-28T18:01:11.993Z"
+    },
+    {
+      "action": "DATA_EXPORT_COMPLETED",
+      "userId": "cmjq1cstz000614j0mjvcou12",
+      "metadata": {
+        "exportId": "d48b19d4-72a4-447d-b6dd-5a943a0aec14"
+      },
+      "createdAt": "2025-12-28T18:01:12.005Z"
+    },
+    {
+      "action": "ACCOUNT_DELETION_REQUESTED",
+      "userId": "cmjq1cyv6000814j00xf7jb1y",
+      "metadata": {
+        "reason": "test",
+        "scheduledDeletionAt": "2026-01-27T18:01:19.799Z"
+      },
+      "createdAt": "2025-12-28T18:01:19.800Z"
+    },
+    {
+      "action": "ACCOUNT_DELETION_CANCELLED",
+      "userId": "cmjq1cyv6000814j00xf7jb1y",
+      "metadata": {
+        "requestId": null
+      },
+      "createdAt": "2025-12-28T18:01:19.836Z"
+    }
+  ]
+}

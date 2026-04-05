@@ -1,0 +1,6 @@
+pdf-parse package not installed - PDF parsing disabled
+mammoth package not installed - DOCX parsing disabled
+X-Download-Options does not take options. Remove the property to silence this warning.
+[2m2026-01-12T02:41:51.917Z[0m [33mWARN [0m Failed to get maintenance config from Redis [2merror={}[0m
+{"type":"slow_request","timestamp":"2026-01-12T02:41:53.434Z","requestId":"req_mkak4b3gf9a5e3c7c6ccbeea","method":"GET","path":"/health","query":{},"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.26200; en-ZW) PowerShell/7.5.4","duration":1518,"statusCode":503,"contentLength":374}
+[2m2026-01-12T02:41:53.434Z[0m [33mWARN [0m Slow request detected [2mmethod=GET path=/ latencyMs=1517 status=503[0m

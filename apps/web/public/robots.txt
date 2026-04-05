@@ -1,0 +1,18 @@
+# Ngurra Pathways - robots.txt
+# https://ngurrapathways.life
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /member/settings/
+Disallow: /company/settings/
+Disallow: /_next/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://ngurrapathways.life/sitemap.xml

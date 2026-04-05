@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640" role="img" aria-label="Ngurra Pathways logo concept 03">
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0" stop-color="rgba(236,72,153,0.35)"/>
+      <stop offset="1" stop-color="rgba(236,72,153,0)"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="320" cy="320" r="296" fill="rgba(255,255,255,0.02)"/>
+  <circle cx="320" cy="320" r="296" fill="url(#glow)"/>
+  <circle cx="320" cy="320" r="276" fill="none" stroke="url(#ring)" stroke-width="18"/>
+  <circle cx="320" cy="320" r="248" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
+
+  <!-- Australia silhouette (abstract) -->
+  <path d="M230 260
+           C250 220, 320 210, 360 228
+           C395 200, 450 226, 456 280
+           C482 320, 458 372, 416 384
+           C408 420, 370 446, 330 444
+           C288 456, 248 432, 236 398
+           C204 386, 194 324, 230 260Z"
+        fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.24)" stroke-width="4"/>
+
+  <!-- Kangaroo mark (bold) -->
+  <path d="M270 355
+           C300 318, 352 312, 388 340
+           C406 354, 416 382, 404 404
+           C382 446, 320 450, 286 414
+           C272 398, 268 380, 270 355Z"
+        fill="#f59e0b"/>
+  <path d="M332 330 L380 304" stroke="#f59e0b" stroke-width="16" stroke-linecap="round"/>
+
+  <!-- Wordmark */ -->
+  <text x="320" y="542" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" font-weight="900" fill="#1e293b">Ngurra</text>
+  <text x="320" y="586" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="28" font-weight="700" fill="#64748b">Pathways</text>
+</svg>

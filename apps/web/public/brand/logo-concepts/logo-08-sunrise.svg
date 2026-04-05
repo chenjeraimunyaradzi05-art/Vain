@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-label="Ngurra Pathways logo concept 08">
+  <defs>
+    <linearGradient id="sun" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(64,60)">
+    <circle cx="112" cy="112" r="104" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
+
+    <!-- Sunrise rays -->
+    <g stroke="#f59e0b" stroke-width="6" stroke-linecap="round" opacity="0.85">
+      <path d="M112 16 V42"/>
+      <path d="M34 48 L54 64"/>
+      <path d="M190 48 L170 64"/>
+      <path d="M16 112 H42"/>
+      <path d="M208 112 H182"/>
+    </g>
+
+    <!-- Australia + kangaroo in sunrise -->
+    <path d="M58 122
+             C72 98, 110 90, 130 98
+             C150 82, 184 94, 186 120
+             C196 138, 184 156, 166 160
+             C162 176, 146 186, 128 186
+             C106 194, 88 186, 80 174
+             C64 170, 54 146, 58 122Z"
+          fill="url(#sun)" opacity="0.95"/>
+    <path d="M96 146
+             C110 130, 132 130, 142 144
+             C148 152, 146 164, 138 170
+             C122 182, 102 176, 96 162
+             C94 156, 94 150, 96 146Z"
+          fill="#1e293b" opacity="0.85"/>
+  </g>
+
+  <g transform="translate(320,112)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="46" font-weight="900" fill="#1e293b">Ngurra Pathways</text>
+    <text x="0" y="42" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="600" fill="#64748b">A new day. A new pathway.</text>
+  </g>
+</svg>

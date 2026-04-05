@@ -1,0 +1,104 @@
+/* ====================================================================
+   Aura Theme — inspired by the Tailwind snippet provided
+   Palette: magenta -> purple -> indigo gradient, glass surfaces, subtle shadows
+   ==================================================================== */
+:root{
+  --aura-pink: #ec4899; /* magenta */
+  --aura-purple: #a855f7; /* purple */
+  --aura-indigo: #6366f1; /* indigo */
+  --aura-surface: #ffffff; /* surface */
+  --aura-muted: rgba(255,255,255,0.9);
+  --aura-border: rgba(99,102,241,0.18);
+  --aura-shadow: 0 28px 70px rgba(15,23,42,0.12);
+  --aura-gradient: linear-gradient(135deg,var(--aura-pink) 0%, var(--aura-purple) 55%, var(--aura-indigo) 100%);
+}
+
+/* Utility for aura surfaces */
+.aura-surface {
+  background: var(--aura-surface);
+  border-radius: 1rem;
+  border: 1px solid var(--aura-border);
+  box-shadow: var(--aura-shadow);
+}
+
+/* Core aura dashboard wrapper */
+.aura-dashboard {
+  position: relative;
+  padding-bottom: 3rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(250,245,250,0.8));
+}
+
+.aura-dashboard::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 15% 20%, rgba(236,72,153,0.12), transparent 45%),
+              radial-gradient(circle at 85% 0%, rgba(99,102,241,0.18), transparent 40%),
+              radial-gradient(circle at 60% 80%, rgba(14,165,233,0.12), transparent 45%);
+  z-index: 0;
+  filter: blur(0.5px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.aura-dashboard > * { position: relative; z-index: 1; }
+
+/* Header pill */
+.aura-dashboard__header{ padding:1rem; border-radius:999px; background:var(--aura-surface); border:1px solid var(--aura-border); box-shadow:var(--aura-shadow); }
+
+.aura-dashboard__cta{ background:var(--aura-gradient); border:1px solid rgba(255,255,255,0.35); color:white; padding:0.6rem 1rem; border-radius:999px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; }
+
+/* Insight cards */
+.aura-dashboard__insight-card{ border-radius:1.25rem; border:1px solid rgba(255,255,255,0.35); background:var(--aura-muted); box-shadow:var(--aura-shadow); overflow:hidden; position:relative; }
+.aura-dashboard__insight-card::after{ content:""; position:absolute; inset:auto 0 -45% 0; height:120%; background:var(--aura-gradient); opacity:0.08; filter:blur(20px); }
+
+/* Group / summary */
+.aura-dashboard__summary-section{ border-radius:2rem; border:1px solid var(--aura-border); background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(249,250,251,0.8)); box-shadow:var(--aura-shadow); }
+
+.aura-dashboard__group-card{ border-radius:24px; border:1px solid rgba(236,72,153,0.15); background:rgba(255,255,255,0.9); box-shadow:inset 0 0 0 1px rgba(148,51,234,0.05); }
+
+.aura-dashboard__waitlist-card{ transition:transform 0.25s ease, box-shadow 0.25s ease; border-radius:28px; border:1px solid rgba(15,23,42,0.05); box-shadow:0 20px 50px rgba(15,23,42,0.12); background:rgba(255,255,255,0.98); }
+.aura-dashboard__waitlist-card:hover{ transform:translateY(-6px); box-shadow:0 35px 70px rgba(15,23,42,0.18); }
+
+.aura-dashboard__status-badge{ text-transform:uppercase; letter-spacing:0.08em; }
+
+.aura-dashboard__section-heading{ border-bottom:1px solid rgba(148,51,234,0.14); padding-bottom:1.25rem; }
+
+.aura-dashboard__signal-pill{ border-color: rgba(148,51,234,0.15); background: rgba(99,102,241,0.05); }
+
+/* helpful banner */
+.aura-dashboard__helper-banner{ border-radius:28px; border:1px solid rgba(16,185,129,0.35); background:linear-gradient(135deg, rgba(16,185,129,0.12), rgba(5,150,105,0.08)); box-shadow:0 18px 50px rgba(5,150,105,0.18); }
+
+/* Shell layout */
+.dashboard-shell{ width:min(1200px, calc(100% - 3rem)); margin:clamp(2rem, 5vw, 3.5rem) auto 4rem; display:flex; flex-direction:column; gap:2rem; }
+
+.dashboard-header{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:1.5rem; padding:clamp(1.5rem, 3vw, 2.25rem); border-radius:24px; border:1px solid rgba(15,23,42,0.05); background:var(--aura-surface); box-shadow:0 30px 60px rgba(15,23,42,0.05); }
+
+.dashboard-header__copy{ max-width:540px; }
+.dashboard-eyebrow{ font-size:0.78rem; text-transform:uppercase; letter-spacing:0.28em; color:var(--aura-pink); font-weight:700; margin:0 0 0.35rem; }
+.dashboard-title{ font-size:clamp(2.25rem, 4.4vw, 3.25rem); margin:0 0 0.35rem; letter-spacing:-0.02em; }
+.dashboard-subtitle{ color:#6b7280; margin:0; }
+
+/* slight site-wide heading rhythm under aura */
+.aura-site h1 { letter-spacing: -0.03em; }
+.aura-site h2 { letter-spacing: -0.01em; }
+
+/* small helpers */
+.aura-small { font-size:0.9rem; color:#475569; }
+
+/* preview screenshot helper */
+.preview-screenshot {
+  width: 360px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(15,23,42,0.06);
+  box-shadow: 0 18px 48px rgba(15,23,42,0.12);
+  background: var(--aura-surface);
+}
+
+.preview-screenshot img { display: block; width: 100%; height: auto; }
+
+.preview-caption { font-size: 0.85rem; color: #475569; margin-top: 8px; text-align:left; }
+
+/* responsive tweaks */
+@media (max-width: 960px){ .dashboard-header{ padding:1rem; } .dashboard-shell{ margin:2rem 1rem 2.5rem; } }

@@ -1,0 +1,21 @@
+# Nixpacks configuration for ngurra-api
+# Fallback if Dockerfile build fails
+
+[phases.setup]
+nixPkgs = ["nodejs_20", "openssl"]
+
+[phases.install]
+cmds = ["npm ci --legacy-peer-deps --omit=dev || npm install --legacy-peer-deps"]
+
+[phases.build]
+cmds = [
+    "npx prisma generate",
+    "npm run build"
+]
+
+[start]
+cmd = "node dist/src/index.js"
+
+[variables]
+NODE_ENV = "production"
+PRISMA_CLI_BINARY_TARGETS = "linux-musl-openssl-3.0.x"

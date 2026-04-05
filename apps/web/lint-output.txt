@@ -1,0 +1,148 @@
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\admin\email-templates\page.tsx
+  57:6  warning  React Hook useEffect has a missing dependency: 'loadTemplates'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\admin\experiments\page.tsx
+  76:6  warning  React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\admin\users\page.tsx
+  445:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\bookmarks\page.tsx
+  96:6  warning  React Hook useEffect has a missing dependency: 'mockSavedItems'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\company\jobs\[id]\applicants\page.tsx
+  49:6  warning  React Hook useEffect has a missing dependency: 'load'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\company\jobs\[id]\edit\page.tsx
+  39:6  warning  React Hook useEffect has a missing dependency: 'load'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\company\jobs\[id]\feature\page.tsx
+  64:6  warning  React Hook useEffect has a missing dependency: 'load'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\company\jobs\[id]\page.tsx
+  37:6  warning  React Hook useEffect has a missing dependency: 'load'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\following\page.tsx
+  128:6  warning  React Hook useEffect has a missing dependency: 'mockFollowing'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\member\financial-wellness\page.tsx
+  123:6  warning  React Hook useEffect has a missing dependency: 'loadGrants'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\member\messages\page.tsx
+  517:31  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  608:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\app\offline\page.tsx
+  68:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\AchievementsScreen.tsx
+  370:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\CourseProgress.tsx
+  204:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  233:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\EnhancedJobSearch.tsx
+  129:27  warning  React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead                                                                                                                                                      react-hooks/exhaustive-deps
+  551:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\FeaturedJobs.tsx
+  88:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\GlobalSearch.tsx
+  208:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\OnboardingWizard.tsx
+  351:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\ReferralSystem.tsx
+  565:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\alerts\JobAlerts.tsx
+  642:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\applications\ApplicationTracker.tsx
+  259:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  364:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\career\CareerCoaching.tsx
+  245:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  372:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\cultural\CulturalCalendar.tsx
+  166:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  316:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\employer\ApplicantTracker.tsx
+  206:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  371:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\employer\CandidateSearch.tsx
+  346:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\employer\EmployerDashboard.tsx
+  278:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\employer\OfferManagement.tsx
+  184:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  281:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\interview\InterviewPrep.tsx
+  347:6   warning  React Hook useEffect has a missing dependency: 'answers'. Either include it or remove the dependency array. You can also replace multiple useState variables with useReducer if 'setAnswer' needs the current value of 'answers'                                react-hooks/exhaustive-deps
+  878:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\jobs\JobSearchBrowse.tsx
+  274:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  389:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  672:6   warning  React Hook useCallback has a missing dependency: 'selectedJob'. Either include it or remove the dependency array                                                                                                                                                react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\jobs\PreApplyDashboard.tsx
+  246:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\learning\LearningPathVisualization.tsx
+  297:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  486:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\mentorship\MentorCalendar.tsx
+  369:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  491:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\notifications\NotificationCenter.tsx
+  277:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  404:6   warning  React Hook useEffect has a missing dependency: 'loadNotifications'. Either include it or remove the dependency array                                                                                                                                            react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\onboarding\OnboardingFlow.tsx
+  238:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\portfolio\PortfolioBuilder.tsx
+  207:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\profile\ProfileStories.tsx
+  127:6   warning  React Hook useEffect has missing dependencies: 'goNext' and 'slide'. Either include them or remove the dependency array                                                                                                                                         react-hooks/exhaustive-deps
+  138:6   warning  React Hook useEffect has missing dependencies: 'goNext', 'goPrev', and 'onClose'. Either include them or remove the dependency array. If 'onClose' changes too often, find the parent component that defines it and wrap that definition in useCallback         react-hooks/exhaustive-deps
+  390:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\profile\VideoResumeManager.tsx
+  174:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  284:6   warning  React Hook useEffect has a missing dependency: 'stream'. Either include it or remove the dependency array                                                                                                                                                       react-hooks/exhaustive-deps
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\references\ReferencesManager.tsx
+  210:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\resources\PersonalizedResources.tsx
+  89:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\resources\ResourceLibrary.tsx
+  369:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  558:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\salary\SalaryInsights.tsx
+  462:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\src\components\settings\AccountManagement.tsx
+  232:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  612:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+Ô£û 61 problems (0 errors, 61 warnings)
+

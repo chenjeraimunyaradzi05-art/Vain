@@ -1,0 +1,85 @@
+# Vantage — Windsurf Project Rules (.windsurfrules)
+# Platform Developer: Munyaradzi Chenjerai
+
+<product>
+Vantage is a pathway platform that helps people move from opportunity discovery to long-term progress.
+Core domains: Opportunities (jobs + public opportunities), Learn (courses), Connect (mentors + community),
+Business tools, Financial wellbeing tools, Housing/stability support, and Partner dashboards (employers/government/enterprise).
+</product>
+
+<tech_stack>
+- Monorepo with apps/ and packages/
+- Web: Next.js (App Router) + TypeScript
+- API: Node.js + TypeScript (REST) + Prisma
+- DB: PostgreSQL (via Prisma)
+- Mobile: React Native (Expo) + TypeScript
+- Validation: Zod at all boundaries
+</tech_stack>
+
+<architecture>
+- Strict separation:
+  - apps/web (frontend)
+  - apps/api (backend)
+  - apps/mobile (mobile)
+  - packages/* (shared types, UI, DB, config)
+- Feature-first organisation:
+  - opportunities, learn, connect, business, finance, housing, partners, admin
+- Shared types live in packages/types and are imported everywhere.
+- All DB access goes through Prisma in packages/db (no ad-hoc SQL in apps).
+</architecture>
+
+<coding_guidelines>
+- TypeScript strict for all new code.
+- Prefer small, composable modules over large files.
+- No "bonus" refactors. Only change what the task requires.
+- Prefer predictable naming:
+  - files: kebab-case for route folders, PascalCase for components, camelCase for functions
+- Always add or update types when changing data shapes.
+</coding_guidelines>
+
+<api_guidelines>
+- Every endpoint must have:
+  - Zod validation for input
+  - role-based access checks
+  - consistent error shape
+- Avoid breaking API changes; version or add new fields instead of removing.
+- Use pagination for list endpoints.
+</api_guidelines>
+
+<ui_guidelines>
+- Accessibility is non-negotiable (labels, focus states, semantic elements).
+- Loading, empty, and error states required for every screen.
+- Keep pages thin; put logic in feature modules.
+</ui_guidelines>
+
+<security_privacy>
+- Principle of least privilege for roles and data access.
+- Do not log secrets or personal data.
+- Never commit .env files or keys.
+- Any feature touching messaging, housing, or safety must include privacy controls.
+</security_privacy>
+
+<testing_quality>
+- Run: lint + typecheck + tests before stating "done".
+- Add unit tests for utilities and critical domain logic (matching, scoring, permissions).
+- Add basic integration tests for new API routes where feasible.
+</testing_quality>
+
+<workflow>
+- Always:
+  1) Provide a short plan (checkpoints)
+  2) Implement checkpoint-by-checkpoint
+  3) Summarise files changed and why
+  4) Run verification commands
+- Ask before:
+  - adding new dependencies
+  - refactoring more than 3 files
+  - changing folder structure
+</workflow>
+
+<do_not>
+- Do not add frameworks or services unless requested.
+- Do not introduce breaking changes to shared types.
+- Do not modify lockfiles unless dependencies changed intentionally.
+- Do not create large new abstractions unless necessary.
+</do_not>

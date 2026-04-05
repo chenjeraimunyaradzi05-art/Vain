@@ -1,0 +1,303 @@
+/**
+ * Security Settings Screen
+ * Manage 2FA and security preferences
+ */
+
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  ActivityIndicator,
+  Linking,
+  Clipboard,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '../context/AuthContext';
+import { securityApi } from '../services/api';
+import { colors, spacing, typography, borderRadius, shadows } from '../theme';
+
+interface TwoFactorStatus {
+  enabled: boolean;
+  backupCodesRemaining?: number;
+}
+
+interface SetupData {
+  secret: string;
+  qrCode: string;
+  backupCodes: string[];
+}
+
+export default function SecuritySettingsScreen() {
+  const { token } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState<TwoFactorStatus | null>(null);
+  const [setupData, setSetupData] = useState<SetupData | null>(null);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [disableCode, setDisableCode] = useState('');
+  const [showBackupCodes, setShowBackupCodes] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+
+  useEffect(() => {
+    fetchStatus();
+  import React from 'react';
+  import { View, Text, StyleSheet } from 'react-native';
+  import { colors, spacing, typography } from '../theme';
+
+  export default function SecuritySettingsScreen() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Security</Text>
+        <Text style={styles.subtitle}>Settings are managed in the web app.</Text>
+      </View>
+    );
+  }
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {!status?.enabled && setupData && !showBackupCodes && (
+          <View>
+            <Text style={styles.stepTitle}>Step 1: Scan QR Code</Text>
+            <Text style={styles.description}>
+              Scan this QR code with your authenticator app (like Google Authenticator or Authy).
+            </Text>
+            
+            {/* In a real app, render QR code image here */}
+            <View style={styles.qrPlaceholder}>
+              <Ionicons name="qr-code-outline" size={64} color={colors.textSecondary} />
+              <Text style={styles.qrText}>QR Code Placeholder</Text>
+            </View>
+
+            <Text style={styles.secretLabel}>Or enter this code manually:</Text>
+            <TouchableOpacity 
+              style={styles.secretContainer}
+              onPress={() => copyToClipboard(setupData.secret)}
+            >
+              <Text style={styles.secretText}>{setupData.secret}</Text>
+              <Ionicons name="copy-outline" size={20} color={colors.primary} />
+            </TouchableOpacity>
+
+            <Text style={styles.stepTitle}>Step 2: Verify Code</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter 6-digit code"
+              keyboardType="number-pad"
+              maxLength={6}
+              value={verificationCode}
+              onChangeText={setVerificationCode}
+            />
+
+            <TouchableOpacity
+              style={styles.button}
+              const styles = StyleSheet.create({
+                container: {
+                  flex: 1,
+                  backgroundColor: colors.background,
+                  padding: spacing.lg,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+                title: {
+                  ...typography.h2,
+                  color: colors.text,
+                  marginBottom: spacing.sm,
+                },
+                subtitle: {
+                  ...typography.body,
+                  color: colors.textSecondary,
+                  textAlign: 'center',
+                },
+              });
+          </View>
+        )}
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  content: {
+    padding: spacing.md,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: spacing.xl,
+    marginTop: spacing.lg,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginTop: spacing.md,
+    marginBottom: spacing.xs,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    paddingHorizontal: spacing.lg,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.lg,
+    padding: spacing.lg,
+    ...shadows.md,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  statusBadge: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: borderRadius.full,
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    marginBottom: spacing.lg,
+    lineHeight: 20,
+  },
+  button: {
+    backgroundColor: colors.primary,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  stepTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginTop: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  qrPlaceholder: {
+    height: 200,
+    backgroundColor: colors.background,
+    borderRadius: borderRadius.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderStyle: 'dashed',
+  },
+  qrText: {
+    marginTop: spacing.sm,
+    color: colors.textSecondary,
+  },
+  secretLabel: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    marginBottom: spacing.xs,
+  },
+  secretContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  secretText: {
+    fontFamily: 'monospace',
+    fontSize: 16,
+    color: colors.text,
+  },
+  input: {
+    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    fontSize: 16,
+    marginBottom: spacing.lg,
+  },
+  successTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.success,
+    marginBottom: spacing.sm,
+    textAlign: 'center',
+  },
+  backupCodesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    backgroundColor: colors.background,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.lg,
+  },
+  backupCode: {
+    width: '45%',
+    fontFamily: 'monospace',
+    fontSize: 14,
+    color: colors.text,
+    marginBottom: spacing.xs,
+    textAlign: 'center',
+  },
+  outlineButton: {
+    borderWidth: 1,
+    borderColor: colors.primary,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    alignItems: 'center',
+    marginBottom: spacing.md,
+  },
+  outlineButtonText: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.border,
+    marginVertical: spacing.lg,
+  },
+  dangerTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.error,
+    marginBottom: spacing.sm,
+  },
+  dangerButton: {
+    backgroundColor: colors.error,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    alignItems: 'center',
+  },
+});

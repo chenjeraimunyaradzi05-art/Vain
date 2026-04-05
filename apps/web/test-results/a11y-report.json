@@ -1,0 +1,49 @@
+{
+  "timestamp": "2025-12-31T18:01:19.404Z",
+  "pages": [
+    {
+      "name": "Home",
+      "path": "/",
+      "violations": [],
+      "passCount": 22
+    },
+    {
+      "name": "Jobs List",
+      "path": "/jobs",
+      "violations": [],
+      "passCount": 24
+    },
+    {
+      "name": "Mentorship",
+      "path": "/mentorship",
+      "violations": [],
+      "passCount": 23
+    },
+    {
+      "name": "Training",
+      "path": "/training",
+      "violations": [],
+      "passCount": 18
+    },
+    {
+      "name": "Login",
+      "path": "/login",
+      "violations": [],
+      "passCount": 24
+    },
+    {
+      "name": "Register",
+      "path": "/register",
+      "violations": [],
+      "passCount": 23
+    }
+  ],
+  "summary": {
+    "totalPages": 6,
+    "totalViolations": 0,
+    "criticalCount": 0,
+    "seriousCount": 0,
+    "moderateCount": 0,
+    "minorCount": 0
+  }
+}

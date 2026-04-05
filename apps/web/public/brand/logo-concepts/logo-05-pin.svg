@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-label="Ngurra Pathways logo concept 05">
+  <defs>
+    <linearGradient id="pin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(70,40)">
+    <!-- Location pin + Australia -->
+    <path d="M110 0
+             C170 0, 220 48, 220 112
+             C220 168, 170 210, 132 252
+             C126 258, 116 258, 110 252
+             C72 210, 0 168, 0 112
+             C0 48, 50 0, 110 0Z"
+          fill="url(#pin)"/>
+
+    <circle cx="110" cy="112" r="78" fill="rgba(255,255,255,0.16)"/>
+
+    <path d="M78 104
+             C88 86, 120 78, 136 86
+             C150 72, 174 82, 176 104
+             C186 120, 176 142, 156 146
+             C154 160, 140 170, 124 170
+             C106 176, 88 168, 84 154
+             C70 150, 66 126, 78 104Z"
+          fill="#ffffff" opacity="0.90"/>
+
+    <path d="M96 132
+             C110 118, 130 118, 140 130
+             C146 136, 146 146, 140 154
+             C128 168, 104 166, 96 150
+             C94 144, 94 138, 96 132Z"
+          fill="#f59e0b"/>
+  </g>
+
+  <g transform="translate(340,112)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="46" font-weight="900" fill="#1e293b">Ngurra Pathways</text>
+    <text x="0" y="42" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="600" fill="#64748b">Find your pathway, wherever you are</text>
+  </g>
+</svg>

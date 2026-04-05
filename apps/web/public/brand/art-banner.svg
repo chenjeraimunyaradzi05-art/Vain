@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120" width="800" height="120" role="img" aria-labelledby="artTitle artDesc">
+  <title id="artTitle">Decorative art motif inspired by country and connection</title>
+  <desc id="artDesc">Abstract dot and wave pattern used decoratively to pay cultural respect without using sacred symbols.</desc>
+  <rect width="800" height="120" rx="0" fill="none"/>
+  <g fill="#e07a45" opacity="0.12">
+    <circle cx="60" cy="40" r="8"/>
+    <circle cx="120" cy="30" r="6"/>
+    <circle cx="180" cy="50" r="10"/>
+    <circle cx="260" cy="36" r="7"/>
+    <circle cx="340" cy="44" r="11"/>
+  </g>
+  <path d="M0 80 C80 20, 240 20, 320 80 C400 140, 560 140, 640 80 C720 20, 880 20, 960 80" stroke="#3b6a47" stroke-width="6" fill="none" opacity="0.1"/>
+  <g transform="translate(420,18)" fill="#3b6a47" opacity="0.1">
+    <circle cx="0" cy="0" r="6"/>
+    <circle cx="24" cy="20" r="6"/>
+    <circle cx="46" cy="-6" r="5"/>
+  </g>
+</svg>

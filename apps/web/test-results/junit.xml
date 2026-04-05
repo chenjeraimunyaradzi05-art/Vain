@@ -1,0 +1,104 @@
+<testsuites id="" name="" tests="40" failures="0" skipped="0" errors="0" time="47.680038">
+<testsuite name="admin-analytics.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="1" failures="0" skipped="0" time="7.081" errors="0">
+<testcase name="admin CTA analytics page displays metrics" classname="admin-analytics.spec.js" time="7.081">
+</testcase>
+</testsuite>
+<testsuite name="ai-throttle-ui.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="2" failures="0" skipped="0" time="17.777" errors="0">
+<testcase name="AI cooldown UI › Mentor dashboard shows cooldown after rate-limit" classname="ai-throttle-ui.spec.js" time="13.793">
+</testcase>
+<testcase name="AI cooldown UI › TAFE setup shows cooldown after rate-limit" classname="ai-throttle-ui.spec.js" time="3.984">
+</testcase>
+</testsuite>
+<testsuite name="billing-analytics.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="9" failures="0" skipped="0" time="21.15" errors="0">
+<testcase name="Billing Portal › displays current plan information" classname="billing-analytics.spec.js" time="6.676">
+</testcase>
+<testcase name="Billing Portal › dashboard shows upgrade CTA for analytics when not enabled" classname="billing-analytics.spec.js" time="2.737">
+</testcase>
+<testcase name="Billing Portal › shows tier comparison cards" classname="billing-analytics.spec.js" time="3.258">
+</testcase>
+<testcase name="Billing Portal › displays invoice history when available" classname="billing-analytics.spec.js" time="2.556">
+</testcase>
+<testcase name="Analytics Dashboard › displays key metrics" classname="billing-analytics.spec.js" time="1.431">
+</testcase>
+<testcase name="Analytics Dashboard › shows Indigenous employment impact section" classname="billing-analytics.spec.js" time="1.298">
+</testcase>
+<testcase name="Analytics Dashboard › displays job performance table" classname="billing-analytics.spec.js" time="1.054">
+</testcase>
+<testcase name="Community Forums › displays forum categories" classname="billing-analytics.spec.js" time="1.123">
+</testcase>
+<testcase name="Skills Gap Analysis › shows skills gap for job" classname="billing-analytics.spec.js" time="1.017">
+</testcase>
+</testsuite>
+<testsuite name="mentor-dashboard.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="1" failures="0" skipped="0" time="7.938" errors="0">
+<testcase name="Mentor dashboard fetches AiConcierge suggestions on load" classname="mentor-dashboard.spec.js" time="7.938">
+</testcase>
+</testsuite>
+<testsuite name="mentor-setup.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="1" failures="0" skipped="0" time="8.202" errors="0">
+<testcase name="Mentor setup save shows success notification" classname="mentor-setup.spec.js" time="8.202">
+</testcase>
+</testsuite>
+<testsuite name="mentorship-extended.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="10" failures="0" skipped="0" time="22.956" errors="0">
+<testcase name="Mentorship Features › member can browse available mentors" classname="mentorship-extended.spec.js" time="7.998">
+</testcase>
+<testcase name="Mentorship Features › mentor can view availability calendar" classname="mentorship-extended.spec.js" time="2.563">
+</testcase>
+<testcase name="Mentorship Features › member can view session history" classname="mentorship-extended.spec.js" time="4.407">
+</testcase>
+<testcase name="Mentorship Features › member can submit session feedback" classname="mentorship-extended.spec.js" time="1.462">
+</testcase>
+<testcase name="Mentorship Features › mentor can view earnings" classname="mentorship-extended.spec.js" time="1.486">
+</testcase>
+<testcase name="Mentorship Circles › displays available circles" classname="mentorship-extended.spec.js" time="1.119">
+</testcase>
+<testcase name="Mentorship Circles › can join a circle" classname="mentorship-extended.spec.js" time="1.177">
+</testcase>
+<testcase name="Course Enrolment › displays external courses" classname="mentorship-extended.spec.js" time="1.07">
+</testcase>
+<testcase name="Course Enrolment › shows course recommendations for job" classname="mentorship-extended.spec.js" time="0.876">
+</testcase>
+<testcase name="Course Enrolment › displays user enrolments" classname="mentorship-extended.spec.js" time="0.798">
+</testcase>
+</testsuite>
+<testsuite name="notifications.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="1" failures="0" skipped="0" time="9.137" errors="0">
+<testcase name="Notifications (visual snapshots) › info, success, error variants and stacking snapshot" classname="notifications.spec.js" time="9.137">
+</testcase>
+</testsuite>
+<testsuite name="schedule.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="1" failures="0" skipped="0" time="14.84" errors="0">
+<testcase name="company schedule flow and resume preview" classname="schedule.spec.js" time="14.84">
+</testcase>
+</testsuite>
+<testsuite name="subscription-stripe.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="12" failures="0" skipped="0" time="11.944" errors="0">
+<testcase name="Stripe Subscription Flow › fetches current subscription via API" classname="subscription-stripe.spec.js" time="0.649">
+</testcase>
+<testcase name="Stripe Subscription Flow › fetches available subscription tiers" classname="subscription-stripe.spec.js" time="0.566">
+</testcase>
+<testcase name="Stripe Subscription Flow › RAP tier has correct features and pricing" classname="subscription-stripe.spec.js" time="0.557">
+</testcase>
+<testcase name="Stripe Subscription Flow › subscription checkout returns redirect URL or mock response" classname="subscription-stripe.spec.js" time="0.203">
+</testcase>
+<testcase name="Stripe Subscription Flow › billing page displays current plan and tiers" classname="subscription-stripe.spec.js" time="3.106">
+</testcase>
+<testcase name="Stripe Subscription Flow › billing page shows success message after Stripe redirect" classname="subscription-stripe.spec.js" time="1.644">
+</testcase>
+<testcase name="Stripe Subscription Flow › billing page shows canceled message after Stripe redirect" classname="subscription-stripe.spec.js" time="2.003">
+</testcase>
+<testcase name="Stripe Subscription Flow › subscription page displays plans and tiers" classname="subscription-stripe.spec.js" time="1.479">
+</testcase>
+<testcase name="Stripe Subscription Flow › subscription page shows success message after Stripe redirect" classname="subscription-stripe.spec.js" time="1.154">
+</testcase>
+<testcase name="Stripe Subscription Flow › webhook test endpoint simulates checkout completed" classname="subscription-stripe.spec.js" time="0.131">
+</testcase>
+<testcase name="Stripe Subscription Flow › fetches invoices list" classname="subscription-stripe.spec.js" time="0.31">
+</testcase>
+<testcase name="Stripe Subscription Flow › tier limits are enforced correctly" classname="subscription-stripe.spec.js" time="0.142">
+</testcase>
+</testsuite>
+<testsuite name="tafe-dashboard.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="1" failures="0" skipped="0" time="2.009" errors="0">
+<testcase name="TAFE dashboard fetches AiConcierge suggestions on load" classname="tafe-dashboard.spec.js" time="2.009">
+</testcase>
+</testsuite>
+<testsuite name="tafe-setup.spec.js" timestamp="2025-12-28T14:59:32.088Z" hostname="" tests="1" failures="0" skipped="0" time="4.334" errors="0">
+<testcase name="TAFE setup form and AiConcierge integration" classname="tafe-setup.spec.js" time="4.334">
+</testcase>
+</testsuite>
+</testsuites>

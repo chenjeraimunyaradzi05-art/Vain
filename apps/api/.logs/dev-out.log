@@ -1,0 +1,19 @@
+
+> ngurra-api@0.1.0 dev
+> ts-node-script --transpile-only src/index.ts
+
+✅ Environment validation passed
+[Cache] Redis initialized
+[2m2026-01-12T02:41:51.106Z[0m [32mINFO [0m ✅ Redis connected
+[2m2026-01-12T02:41:51.108Z[0m [32mINFO [0m 🔌 Socket.io server initialized
+[2m2026-01-12T02:41:51.109Z[0m [32mINFO [0m 🔌 Socket.io initialized
+[2m2026-01-12T02:41:51.110Z[0m [32mINFO [0m 🚀 API running on http://localhost:3333
+[2m2026-01-12T02:41:51.111Z[0m [32mINFO [0m 📚 API docs available at http://localhost:3333/docs
+[2m2026-01-12T02:41:51.111Z[0m [32mINFO [0m ❤️  Health check at http://localhost:3333/health
+[2m2026-01-12T02:41:51.111Z[0m [32mINFO [0m 🔌 Socket.io ready at ws://localhost:3333
+[2m2026-01-12T02:41:51.111Z[0m [32mINFO [0m Deployment initialized [2mslot=blue version=1.0.0 instanceId=local-39488[0m
+[2m2026-01-12T02:41:51.114Z[0m [32mINFO [0m ✅ Socket.io Redis adapter connected
+{"type":"response","level":"error","timestamp":"2026-01-12T02:41:53.434Z","requestId":"req_mkak4b3gf9a5e3c7c6ccbeea","method":"GET","path":"/health","query":{},"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.26200; en-ZW) PowerShell/7.5.4","duration":1518,"statusCode":503,"contentLength":374}
+{"type":"response","level":"info","timestamp":"2026-01-12T02:41:56.753Z","requestId":"req_mkak4etn94c4ef7cbaebfc9b","method":"GET","path":"/video-sessions/health","query":{},"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.26200; en-ZW) PowerShell/7.5.4","duration":6,"statusCode":200,"contentLength":36}
+{"type":"response","level":"info","timestamp":"2026-01-12T02:42:43.577Z","requestId":"req_mkak5eycf3072559c22c8855","method":"GET","path":"/docs","query":{},"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.26200; en-ZW) PowerShell/7.5.4","duration":5,"statusCode":301,"contentLength":154}
+{"type":"response","level":"info","timestamp":"2026-01-12T02:42:43.613Z","requestId":"req_mkak5eyjf0044fd65f02caed","method":"GET","path":"/docs/","query":{},"ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.26200; en-ZW) PowerShell/7.5.4","duration":34,"statusCode":200,"contentLength":0}

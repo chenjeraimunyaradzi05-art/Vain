@@ -1,0 +1,293 @@
+{
+  "common": {
+    "appName": "Ngurra Pathways",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "apply": "Apply",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "and": "and"
+  },
+  "nav": {
+    "home": "Home",
+    "jobs": "Jobs",
+    "mentorship": "Mentorship",
+    "training": "Training",
+    "community": "Community",
+    "messages": "Messages",
+    "profile": "Profile",
+    "settings": "Settings",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "dashboard": "Dashboard"
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "email": "Email address",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "signUp": {
+      "title": "Create your account",
+      "subtitle": "Join the Ngurra Pathways community",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "userType": "I am a",
+      "userTypes": {
+        "candidate": "Job Seeker",
+        "employer": "Employer",
+        "mentor": "Mentor"
+      },
+      "terms": "By signing up, you agree to our {{terms}} and {{privacy}}",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Privacy Policy",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "forgotPassword": {
+      "title": "Reset your password",
+      "subtitle": "We'll send you a reset link",
+      "email": "Email address",
+      "submit": "Send Reset Link",
+      "backToSignIn": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Create new password",
+      "subtitle": "Enter your new password",
+      "password": "New password",
+      "confirmPassword": "Confirm new password",
+      "submit": "Reset Password"
+    },
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "emailExists": "An account with this email already exists",
+      "weakPassword": "Password is too weak",
+      "invalidToken": "Invalid or expired reset token",
+      "accountLocked": "Account is temporarily locked"
+    }
+  },
+  "jobs": {
+    "title": "Find Your Next Opportunity",
+    "searchPlaceholder": "Job title, keywords, or company",
+    "locationPlaceholder": "Location",
+    "filters": {
+      "title": "Filters",
+      "jobType": "Job Type",
+      "experienceLevel": "Experience Level",
+      "salary": "Salary Range",
+      "remote": "Remote",
+      "culturalFit": "Cultural Fit",
+      "industry": "Industry",
+      "skills": "Skills"
+    },
+    "jobTypes": {
+      "fullTime": "Full-time",
+      "partTime": "Part-time",
+      "casual": "Casual",
+      "contract": "Contract",
+      "internship": "Internship"
+    },
+    "experienceLevels": {
+      "entry": "Entry Level",
+      "mid": "Mid Level",
+      "senior": "Senior Level",
+      "executive": "Executive"
+    },
+    "sortBy": {
+      "relevance": "Most Relevant",
+      "date": "Most Recent",
+      "salaryDesc": "Highest Salary",
+      "salaryAsc": "Lowest Salary"
+    },
+    "results": "{{count}} jobs found",
+    "noResults": {
+      "title": "No jobs found",
+      "subtitle": "Try adjusting your search or filters"
+    },
+    "details": {
+      "apply": "Apply Now",
+      "save": "Save Job",
+      "saved": "Saved",
+      "share": "Share",
+      "description": "Description",
+      "requirements": "Requirements",
+      "benefits": "Benefits",
+      "aboutCompany": "About {{company}}"
+    },
+    "application": {
+      "title": "Apply for {{job}}",
+      "coverLetter": "Cover Letter",
+      "resume": "Resume",
+      "uploadResume": "Upload Resume",
+      "submit": "Submit Application",
+      "success": "Application submitted successfully!"
+    }
+  },
+  "mentorship": {
+    "title": "Find a Mentor",
+    "subtitle": "Connect with experienced professionals",
+    "filters": {
+      "industry": "Industry",
+      "availability": "Availability",
+      "experience": "Years of Experience"
+    },
+    "mentor": {
+      "about": "About",
+      "expertise": "Areas of Expertise",
+      "availability": "Availability",
+      "contact": "Request Connection"
+    },
+    "session": {
+      "book": "Book a Session",
+      "upcoming": "Upcoming Sessions",
+      "past": "Past Sessions",
+      "reschedule": "Reschedule",
+      "cancel": "Cancel Session"
+    }
+  },
+  "profile": {
+    "title": "Your Profile",
+    "edit": "Edit Profile",
+    "tabs": {
+      "overview": "Overview",
+      "experience": "Experience",
+      "education": "Education",
+      "skills": "Skills",
+      "documents": "Documents"
+    },
+    "sections": {
+      "about": "About Me",
+      "experience": "Work Experience",
+      "education": "Education",
+      "skills": "Skills & Certifications",
+      "languages": "Languages"
+    },
+    "visibility": {
+      "public": "Public",
+      "private": "Private",
+      "employersOnly": "Employers Only"
+    }
+  },
+  "messages": {
+    "title": "Messages",
+    "search": "Search messages",
+    "noMessages": "No messages yet",
+    "compose": "New Message",
+    "send": "Send",
+    "typing": "{{name}} is typing...",
+    "read": "Read",
+    "delivered": "Delivered",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "settings": "Notification Settings",
+    "types": {
+      "jobs": "New Job Matches",
+      "applications": "Application Updates",
+      "messages": "New Messages",
+      "mentorship": "Mentorship",
+      "events": "Events & Training"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "sections": {
+      "account": "Account",
+      "privacy": "Privacy",
+      "notifications": "Notifications",
+      "security": "Security",
+      "calendar": "Calendar",
+      "appearance": "Appearance"
+    },
+    "account": {
+      "email": "Email Address",
+      "password": "Password",
+      "changePassword": "Change Password",
+      "deleteAccount": "Delete Account"
+    },
+    "privacy": {
+      "profileVisibility": "Profile Visibility",
+      "dataSharing": "Data Sharing",
+      "downloadData": "Download My Data"
+    },
+    "appearance": {
+      "theme": "Theme",
+      "themes": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "language": "Language"
+    }
+  },
+  "accessibility": {
+    "skipToMain": "Skip to main content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "openSearch": "Open search",
+    "closeSearch": "Close search",
+    "expandFilters": "Expand filters",
+    "collapseFilters": "Collapse filters"
+  },
+  "errors": {
+    "pageNotFound": {
+      "title": "Page Not Found",
+      "subtitle": "The page you're looking for doesn't exist",
+      "goHome": "Go Home"
+    },
+    "serverError": {
+      "title": "Server Error",
+      "subtitle": "Something went wrong on our end",
+      "retry": "Try Again"
+    },
+    "offline": {
+      "title": "You're Offline",
+      "subtitle": "Check your internet connection"
+    },
+    "unauthorized": {
+      "title": "Access Denied",
+      "subtitle": "You don't have permission to view this page"
+    }
+  },
+  "time": {
+    "now": "Just now",
+    "minutesAgo": "{{count}} minute ago",
+    "minutesAgo_plural": "{{count}} minutes ago",
+    "hoursAgo": "{{count}} hour ago",
+    "hoursAgo_plural": "{{count}} hours ago",
+    "daysAgo": "{{count}} day ago",
+    "daysAgo_plural": "{{count}} days ago",
+    "weeksAgo": "{{count}} week ago",
+    "weeksAgo_plural": "{{count}} weeks ago"
+  }
+}

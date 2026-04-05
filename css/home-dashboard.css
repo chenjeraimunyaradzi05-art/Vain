@@ -1,0 +1,101 @@
+/* -------------------------------------------------------------------
+   Home Dashboard CSS
+   ------------------------------------------------------------------- */
+
+/* Color Variables */
+:root {
+  /* Aura Theme Colors */
+  --aura-purple: #a855f7;
+  --aura-indigo: #6366f1;
+  --aura-pink: #ec4899;
+  
+  /* Dashboard Colors */
+  --dashboard-dark-start: #1C2B36;
+  --dashboard-dark-end: #2F4C5C;
+  --dashboard-accent: #D97742;
+  
+  /* Text Colors */
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  
+  /* Accent & UI */
+  --accent: #f59e0b;
+  --radius: 14px;
+  --scale-factor: 1;
+  
+  /* Elevation Shadows */
+  --elev-1: 0 4px 14px rgba(15, 23, 42, 0.06);
+  --elev-2: 0 8px 24px rgba(15, 23, 42, 0.08);
+  
+  /* Chart Colors */
+  --chart-bg: linear-gradient(180deg, rgba(250, 250, 255, 0.98), #fff);
+  --chart-border: rgba(15, 23, 42, 0.04);
+  
+  /* Metric Box Colors */
+  --metric-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  --metric-border: rgba(255, 255, 255, 0.06);
+  --metric-text-shadow: 0 2px 14px rgba(99, 102, 241, 0.14);
+}
+
+/* Chart visuals */
+.chart-card { display:flex; gap:16px; align-items:center; padding:18px; border-radius:12px; background: linear-gradient(180deg, rgba(250,250,255,0.98), #fff); border:1px solid rgba(15,23,42,0.04); box-shadow: var(--elev-1); }
+.sparkline { width:140px; height:48px; }
+.donut { width:84px; height:84px; display:block; }
+.donut svg { transform: rotate(-90deg); overflow:visible; }
+.donut .track { stroke: rgba(15,23,42,0.06); stroke-width: 10; fill: none; }
+.donut .value { stroke: url(#auraGradient); stroke-width: 10; stroke-linecap: round; fill: none; stroke-dasharray: 251.2; stroke-dashoffset: 251.2; transition: stroke-dashoffset .9s cubic-bezier(.2,.9,.24,1); }
+.donut .label { font-size: 0.95rem; font-weight:700; fill: var(--text-main); }
+
+/* Animated bars for mini bar charts */
+.bar-chart { display:flex; align-items:end; gap:6px; height:54px; }
+.bar-chart .bar { width:14px; background: linear-gradient(180deg,var(--aura-purple),var(--aura-indigo)); border-radius:6px 6px 4px 4px; transition: height .8s cubic-bezier(.2,.9,.24,1); box-shadow: 0 6px 18px rgba(99,102,241,0.08); }
+
+/* Metric / dashboard polish */
+.metric-box { background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); padding: 18px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); }
+.metric-box .val { font-size: 2rem; color: var(--aura-indigo); text-shadow: 0 2px 14px rgba(99,102,241,0.14); }
+.metric-box .lbl { color: rgba(255,255,255,0.85); }
+
+.metric-box .val { font-size: calc(2rem * var(--scale-factor)); }
+.donut { width: calc(84px * var(--scale-factor)); height: calc(84px * var(--scale-factor)); }
+.sparkline { width: calc(140px * var(--scale-factor)); height: calc(48px * var(--scale-factor)); }
+
+/* -------------------------------------------------------------------
+   Candidate Dashboard (Dark Theme Area)
+   ------------------------------------------------------------------- */
+.candidate-hero {
+  background: linear-gradient(120deg, #1C2B36, #2F4C5C);
+  color: white;
+  border-radius: var(--radius);
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+/* Abstract art accent on dashboard */
+.candidate-hero::after {
+  content: "";
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(217, 119, 66, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.cand-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+.greeting h2 { color: white; margin-bottom: 4px; }
+.greeting p { color: rgba(255,255,255,0.7); margin: 0; }
+
+.metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.metric-box { background: rgba(255,255,255,0.08); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(4px); }
+.metric-box .val { font-size: 1.8rem; font-weight: 800; line-height: 1; margin-bottom: 4px; color: #fff; }
+.metric-box .lbl { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
+
+.priorities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.priority-item {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 16px; border-radius: 10px; display: flex; gap: 12px; align-items: center;
+}
+.priority-item i { color: var(--accent); }
+.priority-item strong { display: block; font-size: 0.95rem; }
+.priority-item span { display: block; font-size: 0.85rem; opacity: 0.7; }

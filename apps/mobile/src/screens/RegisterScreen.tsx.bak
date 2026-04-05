@@ -1,0 +1,179 @@
+/**
+ * Register Screen
+ * New user registration with user type selection
+ */
+
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { colors, spacing, typography } from '../theme';
+
+export default function RegisterScreen() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Welcome</Text>
+      <Text style={styles.subtitle}>This screen is no longer used.</Text>
+    </View>
+  );
+}
+        <Text style={styles.title}>Create Account</Text>
+        <Text style={styles.subtitle}>Join the Ngurra Pathways community</Text>
+
+        {/* User Type Selection */}
+        <Text style={styles.sectionTitle} accessibilityRole="header">I am a...</Text>
+        <View style={styles.userTypeContainer} accessibilityRole="radiogroup" accessibilityLabel="Account type selection">
+          {USER_TYPES.map((type) => (
+            <TouchableOpacity
+              key={type.value}
+              style={[
+                const styles = StyleSheet.create({
+                  container: {
+                    flex: 1,
+                    backgroundColor: colors.background,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: spacing.lg,
+                  },
+                  title: {
+                    ...typography.h2,
+                    color: colors.text,
+                    marginBottom: spacing.sm,
+                  },
+                  subtitle: {
+                    ...typography.body,
+                    color: colors.textSecondary,
+                    textAlign: 'center',
+                  },
+                });
+              accessibilityHint="Re-enter your password"
+              onChangeText={setConfirmPassword}
+              secureTextEntry={!showPassword}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={[styles.button, isLoading && styles.buttonDisabled]}
+            onPress={handleRegister}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.buttonText}>Create Account</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+
+        {/* Terms */}
+        <Text style={styles.terms}>
+          By creating an account, you agree to our{' '}
+          <Text style={styles.link}>Terms of Service</Text> and{' '}
+          <Text style={styles.link}>Privacy Policy</Text>
+        </Text>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.xl,
+  },
+  title: {
+    ...typography.h1,
+    marginBottom: spacing.xs,
+  },
+  subtitle: {
+    ...typography.bodySmall,
+    marginBottom: spacing.xl,
+  },
+  sectionTitle: {
+    ...typography.h3,
+    marginBottom: spacing.md,
+  },
+  userTypeContainer: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.xl,
+  },
+  userTypeCard: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: colors.border,
+  },
+  userTypeCardSelected: {
+    borderColor: colors.primary,
+    backgroundColor: `${colors.primary}15`,
+  },
+  userTypeLabel: {
+    color: colors.text,
+    fontWeight: '600',
+    marginTop: spacing.sm,
+    fontSize: 14,
+  },
+  userTypeLabelSelected: {
+    color: colors.primary,
+  },
+  userTypeDescription: {
+    ...typography.caption,
+    textAlign: 'center',
+    marginTop: spacing.xs,
+  },
+  form: {
+    gap: spacing.md,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  inputIcon: {
+    paddingLeft: spacing.md,
+  },
+  input: {
+    flex: 1,
+    color: colors.text,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.sm,
+    fontSize: 16,
+  },
+  eyeButton: {
+    padding: spacing.md,
+  },
+  button: {
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.md,
+    borderRadius: borderRadius.lg,
+    alignItems: 'center',
+    marginTop: spacing.sm,
+  },
+  buttonDisabled: {
+    opacity: 0.7,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  terms: {
+    ...typography.caption,
+    textAlign: 'center',
+    marginTop: spacing.xl,
+    lineHeight: 20,
+  },
+  link: {
+    color: colors.primary,
+  },
+});

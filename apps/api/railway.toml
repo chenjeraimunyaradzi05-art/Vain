@@ -1,0 +1,13 @@
+# Railway configuration (when deploying from apps/api root)
+# This is used if Railway root directory is set to apps/api
+
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile.railway"
+
+[deploy]
+startCommand = "sh start.sh"
+healthcheckPath = "/health/live"
+healthcheckTimeout = 120
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3

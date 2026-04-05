@@ -1,0 +1,322 @@
+/* ====================================================================
+   Ngurra Pathways - Responsive Queries
+   Media queries for responsive design across devices
+   ==================================================================== */
+
+/* -------------------------------------------------------------------
+   Large Tablets & Small Desktops (max-width: 1024px)
+   ------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .wrap {
+    padding: 0 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  header {
+    padding: 24px 0 40px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .candidate-hero {
+    padding: 24px;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Tablets (max-width: 768px)
+   ------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+
+  .wrap {
+    padding: 0 14px;
+  }
+
+  /* Header adjustments */
+  header {
+    padding: 20px 0 30px;
+  }
+
+  .nav-bar {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .main-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .main-nav a {
+    margin-left: 0;
+  }
+
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  /* Cards & Components */
+  .card {
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  /* Job Cards */
+  .job-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .job-card h3 {
+    font-size: 1.05rem;
+  }
+
+  /* Candidate Dashboard */
+  .candidate-hero {
+    padding: 20px;
+  }
+
+  .candidate-hero__inner {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .hero-metric .value {
+    font-size: 1.6rem;
+  }
+
+  .priority-list {
+    gap: 8px;
+  }
+
+  /* Forms */
+  .apply-box input,
+  .apply-box select,
+  .apply-box textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Admin Table */
+  .admin-table {
+    font-size: 0.8rem;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 6px;
+    min-width: 80px;
+  }
+
+  /* Buttons */
+  .btn, button {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Mobile Phones (max-width: 480px)
+   ------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .wrap {
+    padding: 0 12px;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  /* Header */
+  .logo-lockup {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .main-nav a {
+    display: block;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+  }
+
+  /* Cards */
+  .card {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  /* Dashboard Metrics */
+  .hero-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .cand-badges {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Job Cards */
+  .job-card .job-meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Forms */
+  .apply-box {
+    gap: 14px;
+  }
+
+  /* Buttons */
+  .btn, button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Admin Actions */
+  .admin-table button {
+    font-size: 0.75rem;
+    padding: 5px 8px;
+  }
+
+  /* Footer */
+  footer {
+    font-size: 0.85rem;
+    padding: 24px 12px;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Print Styles
+   ------------------------------------------------------------------- */
+@media print {
+  header,
+  footer,
+  nav,
+  .candidate-hero,
+  button,
+  .btn {
+    display: none;
+  }
+
+  body {
+    background: white;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Dark Mode Support (if desired)
+   ------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  /* Uncomment to enable dark mode support
+  :root {
+    --sand: #1a1a1a;
+    --sand-dark: #2d2d2d;
+    --white: #2a2a2a;
+    --text-main: #e5e5e5;
+    --text-muted: #a0a0a0;
+    --border: #404040;
+  }
+
+  .card {
+    background: var(--white);
+  }
+
+  .job-card {
+    background: linear-gradient(135deg, #2a2a2a, #252525);
+  }
+  */
+}
+
+/* -------------------------------------------------------------------
+   Reduced Motion Support (Accessibility)
+   ------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .job-card:hover {
+    transform: none;
+  }
+
+  button:hover {
+    transform: none;
+  }
+}
+
+/* -------------------------------------------------------------------
+   High Contrast Mode Support
+   ------------------------------------------------------------------- */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid var(--text-main);
+  }
+
+  button {
+    border: 2px solid currentColor;
+  }
+
+  .job-card:hover {
+    border-width: 3px;
+  }
+}

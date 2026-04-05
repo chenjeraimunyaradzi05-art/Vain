@@ -1,0 +1,99 @@
+/**
+ * Login Screen
+ * Supports email/password, 2FA, and biometric authentication
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { colors, spacing, typography } from '../theme';
+
+export default function LoginScreen() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Welcome</Text>
+      <Text style={styles.subtitle}>This screen is no longer used.</Text>
+    </View>
+  );
+}
+                onPress={handleLogin}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.loginButtonText}>Sign In</Text>
+                )}
+              </TouchableOpacity>
+
+              {biometricAvailable && biometricEnabled && (
+                <TouchableOpacity 
+                  style={styles.biometricButton}
+                  onPress={handleBiometricLogin}
+                  disabled={isLoading}
+                >
+                  <Ionicons name="finger-print" size={24} color={colors.primary} />
+                  <Text style={styles.biometricText}>Sign in with Biometrics</Text>
+                </TouchableOpacity>
+              )}
+            </>
+          )}
+        const styles = StyleSheet.create({
+          container: {
+            flex: 1,
+            backgroundColor: colors.background,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: spacing.lg,
+          },
+          title: {
+            ...typography.h2,
+            color: colors.text,
+            marginBottom: spacing.sm,
+          },
+          subtitle: {
+            ...typography.body,
+            color: colors.textSecondary,
+            textAlign: 'center',
+          },
+        });
+    elevation: 4,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  backButton: {
+    marginTop: 16,
+    alignItems: 'center',
+  },
+  backButtonText: {
+    color: colors?.textLight || '#666',
+    fontSize: 14,
+  },
+  biometricButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 24,
+    padding: 12,
+  },
+  biometricText: {
+    marginLeft: 8,
+    color: colors?.primary || '#6B4C9A',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footerText: {
+    color: colors?.textLight || '#666',
+    fontSize: 14,
+  },
+  signupText: {
+    color: colors?.primary || '#6B4C9A',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+});

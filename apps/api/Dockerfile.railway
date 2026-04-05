@@ -1,0 +1,77 @@
+# =====================================
+# Ngurra Pathways API - Railway Dockerfile
+# =====================================
+# Optimized 2-stage build for fast deploys
+
+# ============ STAGE 1: Build & Dependencies ============
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install build dependencies (minimal)
+RUN apk add --no-cache openssl
+
+# Copy package files
+COPY apps/api/package.json apps/api/package-lock.json ./
+
+# Install all dependencies (including dev for build)
+RUN npm install --legacy-peer-deps
+
+# Copy prisma schema
+COPY apps/api/prisma ./prisma
+
+# Generate Prisma client for linux-musl (Alpine)
+ENV PRISMA_CLI_BINARY_TARGETS=linux-musl-openssl-3.0.x
+RUN npx prisma generate
+
+# Copy source code
+COPY apps/api/src ./src
+COPY apps/api/build.mjs apps/api/tsconfig.json apps/api/tsconfig.build.json ./
+
+# Build the application
+RUN npm run build
+
+# Prune to only production dependencies
+RUN npm prune --omit=dev
+
+# ============ STAGE 2: Production Runtime ============
+FROM node:20-alpine AS runtime
+
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apk add --no-cache openssl dumb-init
+
+# Create non-root user for security
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nodeuser
+
+# Copy pruned node_modules and package files from builder
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/package-lock.json ./
+
+# Copy built application
+COPY --from=builder /app/dist ./dist
+
+# Copy prisma schema and generated client
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+# Set ownership to non-root user
+RUN chown -R nodeuser:nodejs /app
+USER nodeuser
+
+# Environment variables
+ENV NODE_ENV=production
+ENV PORT=3333
+
+EXPOSE 3333
+
+# Health check - use /health/live which doesn't require database
+HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=5 \
+    CMD node -e "require('http').get('http://localhost:3333/health/live', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
+
+# Start application
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "dist/src/index.js"]

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" width="480" height="400" role="img" aria-label="Ngurra Pathways">
+  <defs>
+    <linearGradient id="ausGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="50%" stop-color="#2a4a6e"/>
+      <stop offset="100%" stop-color="#1a2f4a"/>
+    </linearGradient>
+    <linearGradient id="kangarooGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Australia silhouette (geometric/low-poly style) -->
+  <path d="M95 85 L130 70 L175 72 L210 58 L250 55 L295 62 L340 78 L370 95 L385 75 L400 90 L395 120 L380 145 L390 175 L378 210 L360 235 L340 255 L310 270 L275 278 L240 285 L200 280 L165 268 L140 250 L115 225 L95 195 L80 160 L75 125 L82 100 Z
+           M355 95 L375 88 L390 95 L385 110 L368 108 Z"
+        fill="url(#ausGrad)" stroke="#2d5a87" stroke-width="1"/>
+  
+  <!-- Circuit/pathway lines -->
+  <g stroke="#3b82a0" stroke-width="2" fill="none" opacity="0.7">
+    <path d="M200 140 L240 145 L280 138 L320 155"/>
+    <path d="M240 145 L245 175 L260 200 L290 210"/>
+    <path d="M180 170 L200 180 L245 175"/>
+    <path d="M260 200 L240 225 L220 245"/>
+    <circle cx="240" cy="145" r="4" fill="#3b82a0"/>
+    <circle cx="245" cy="175" r="3" fill="#3b82a0"/>
+    <circle cx="260" cy="200" r="3" fill="#3b82a0"/>
+    <circle cx="290" cy="210" r="4" fill="#3b82a0"/>
+  </g>
+  
+  <!-- Kangaroo silhouette (jumping, facing right) -->
+  <path d="M195 155 
+           C200 145, 215 138, 230 142
+           L245 130 L255 125 L258 132 L250 140
+           C265 145, 275 158, 272 175
+           C270 188, 258 198, 242 198
+           L248 215 L252 230 L245 232 L238 218
+           L232 232 L225 230 L230 215
+           C218 212, 205 200, 200 185
+           L192 195 L185 192 L195 178
+           C188 170, 190 160, 195 155 Z"
+        fill="url(#kangarooGrad)"/>
+  
+  <!-- Eye -->
+  <circle cx="248" cy="138" r="3" fill="#1e3a5f"/>
+  
+  <!-- Wordmark -->
+  <text x="240" y="330" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="48" font-weight="800" fill="#1e3a5f">Ngurra</text>
+  <text x="240" y="370" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700" fill="#f59e0b">Pathways</text>
+</svg>

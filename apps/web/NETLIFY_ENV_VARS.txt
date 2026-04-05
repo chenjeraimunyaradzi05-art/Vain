@@ -1,0 +1,116 @@
+# =============================================================================
+# NETLIFY ENVIRONMENT VARIABLES
+# Copy these to Netlify UI: Site Settings > Environment Variables
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# AUTHENTICATION (REQUIRED)
+# -----------------------------------------------------------------------------
+NEXTAUTH_SECRET=IPLKJXhbbiUp9M7cUKUypEdV6N6qen1J8+Zxf1iroqg=
+# ⚠️ Generate your own for production: openssl rand -base64 32
+
+# Per-context (set in Netlify UI per deploy context):
+# Production: NEXTAUTH_URL=https://ngurrapathways.com.au
+# Staging: NEXTAUTH_URL=https://staging.ngurrapathways.com.au
+# Preview: NEXTAUTH_URL=https://deploy-preview-<id>--ngurrapathways.netlify.app
+
+# -----------------------------------------------------------------------------
+# DATABASE (REQUIRED)
+# -----------------------------------------------------------------------------
+DATABASE_URL=postgresql://user:password@host:5432/database?sslmode=require
+# Options:
+# - Neon: postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
+# - Supabase: postgresql://postgres:pass@db.xxx.supabase.co:5432/postgres
+# - PlanetScale: mysql://user:pass@aws.connect.psdb.cloud/dbname?ssl={"rejectUnauthorized":true}
+
+# -----------------------------------------------------------------------------
+# API CONFIGURATION (REQUIRED)
+# -----------------------------------------------------------------------------
+# Production
+NEXT_PUBLIC_API_URL=https://api.gimbi.com.au
+NEXT_PUBLIC_SOCKET_URL=https://api.gimbi.com.au
+
+# Staging/Preview (use these for non-production contexts)
+# NEXT_PUBLIC_API_URL=https://api-staging.gimbi.com.au
+# NEXT_PUBLIC_SOCKET_URL=https://api-staging.gimbi.com.au
+
+# -----------------------------------------------------------------------------
+# STRIPE PAYMENTS (REQUIRED for payments)
+# -----------------------------------------------------------------------------
+# Get from: https://dashboard.stripe.com/apikeys
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_xxxxxxxxxxxxxxxxxxxxx
+STRIPE_SECRET_KEY=sk_live_xxxxxxxxxxxxxxxxxxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxxxxxx
+
+# Test keys (for staging/preview):
+# NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxx
+# STRIPE_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxx
+
+# -----------------------------------------------------------------------------
+# CLOUDINARY (REQUIRED for image uploads)
+# -----------------------------------------------------------------------------
+# Get from: https://cloudinary.com/console
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=ngurra-uploads
+CLOUDINARY_API_KEY=xxxxxxxxxxxxxxxxxxxxx
+CLOUDINARY_API_SECRET=xxxxxxxxxxxxxxxxxxxxx
+
+# -----------------------------------------------------------------------------
+# EMAIL SERVICE (Choose one)
+# -----------------------------------------------------------------------------
+# Option 1: SendGrid
+SENDGRID_API_KEY=SG.xxxxxxxxxxxxxxxxxxxxx
+SENDGRID_FROM=noreply@ngurrapathways.com.au
+
+# Option 2: AWS SES
+# AWS_SES_REGION=ap-southeast-2
+# AWS_SES_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXX
+# AWS_SES_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxx
+# AWS_SES_FROM=noreply@ngurrapathways.com.au
+
+# -----------------------------------------------------------------------------
+# OAUTH PROVIDERS (Optional - for social login)
+# -----------------------------------------------------------------------------
+# Google OAuth: https://console.cloud.google.com/apis/credentials
+GOOGLE_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-xxxxxxxxxxxxxxxxxxxxx
+
+# Microsoft/Azure AD: https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps
+MICROSOFT_CLIENT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+MICROSOFT_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxx
+
+# LinkedIn: https://www.linkedin.com/developers/apps
+LINKEDIN_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxx
+LINKEDIN_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxx
+
+# -----------------------------------------------------------------------------
+# LIVEKIT (Required for video/audio rooms)
+# -----------------------------------------------------------------------------
+# Get from: https://cloud.livekit.io or self-hosted
+NEXT_PUBLIC_LIVEKIT_URL=wss://your-project.livekit.cloud
+LIVEKIT_API_KEY=APIxxxxxxxxxxxxx
+LIVEKIT_SECRET_KEY=xxxxxxxxxxxxxxxxxxxxx
+
+# -----------------------------------------------------------------------------
+# ANALYTICS (Optional)
+# -----------------------------------------------------------------------------
+# Google Analytics 4
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+
+# Sentry Error Tracking
+SENTRY_DSN=https://xxx@xxx.ingest.sentry.io/xxx
+NEXT_PUBLIC_SENTRY_DSN=https://xxx@xxx.ingest.sentry.io/xxx
+
+# -----------------------------------------------------------------------------
+# SECURITY & RATE LIMITING
+# -----------------------------------------------------------------------------
+RATE_LIMIT_SECRET=your-rate-limit-secret
+AI_RATE_LIMIT_PER_MINUTE=10
+
+# -----------------------------------------------------------------------------
+# FEATURE FLAGS (Optional)
+# -----------------------------------------------------------------------------
+NEXT_PUBLIC_ENABLE_LIVE_STREAMING=true
+NEXT_PUBLIC_ENABLE_AI_FEATURES=true
+NEXT_PUBLIC_ENABLE_PAYMENTS=true
+NEXT_PUBLIC_MAINTENANCE_MODE=false

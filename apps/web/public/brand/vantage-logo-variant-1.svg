@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-labelledby="logoV1Title logoV1Desc">
+  <title id="logoV1Title">Ngurra Pathways logo variant — earth tones</title>
+  <desc id="logoV1Desc">A horizontal variant with stylised meeting lines and a short wordmark
+  suitable for header use</desc>
+  <rect width="320" height="240" rx="14" fill="#fff" />
+  <g transform="translate(24,28)">
+    <!-- pathway lines -->
+    <path d="M0 120 C60 80, 160 80, 220 120" stroke="#e07a45" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.95" />
+    <path d="M0 140 C70 110, 150 110, 220 140" stroke="#3b6a47" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9" />
+
+    <!-- meeting circle -->
+    <circle cx="240" cy="120" r="34" fill="#f3e6d0" stroke="#3b6a47" stroke-width="3" />
+    <g fill="#3b6a47">
+      <circle cx="230" cy="110" r="4" />
+      <circle cx="250" cy="110" r="4" />
+      <circle cx="240" cy="138" r="4" />
+    </g>
+
+    <!-- short wordmark -->
+    <g transform="translate(0,190)">
+      <text x="0" y="10" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto" font-weight="700" font-size="18" fill="#3b6a47">Ngurra Pathways</text>
+    </g>
+  </g>
+</svg>

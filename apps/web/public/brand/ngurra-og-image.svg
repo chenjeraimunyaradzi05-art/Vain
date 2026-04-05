@@ -1,0 +1,98 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="dotPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#334155" opacity="0.5"/>
+    </pattern>
+    <!-- Aboriginal-inspired pattern -->
+    <pattern id="indigenousPattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <circle cx="30" cy="30" r="3" fill="#f59e0b" opacity="0.3"/>
+      <circle cx="30" cy="30" r="8" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.2"/>
+      <circle cx="30" cy="30" r="15" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.15"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  <rect width="1200" height="630" fill="url(#dotPattern)"/>
+  
+  <!-- Indigenous pattern overlay on right side -->
+  <rect x="600" y="0" width="600" height="630" fill="url(#indigenousPattern)" opacity="0.6"/>
+  
+  <!-- Decorative accent line at top -->
+  <rect x="0" y="0" width="1200" height="6" fill="url(#accentGradient)"/>
+  
+  <!-- Left decorative circles (Aboriginal dot art inspired) -->
+  <g opacity="0.4">
+    <circle cx="80" cy="500" r="60" fill="none" stroke="#f59e0b" stroke-width="3"/>
+    <circle cx="80" cy="500" r="45" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <circle cx="80" cy="500" r="30" fill="none" stroke="#f59e0b" stroke-width="2"/>
+    <circle cx="80" cy="500" r="15" fill="#f59e0b"/>
+  </g>
+  
+  <!-- Right decorative circles -->
+  <g opacity="0.3">
+    <circle cx="1100" cy="150" r="80" fill="none" stroke="#f59e0b" stroke-width="3"/>
+    <circle cx="1100" cy="150" r="60" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <circle cx="1100" cy="150" r="40" fill="none" stroke="#f59e0b" stroke-width="2"/>
+    <circle cx="1100" cy="150" r="20" fill="#ef4444"/>
+  </g>
+  
+  <!-- Logo placeholder circle -->
+  <circle cx="600" cy="200" r="70" fill="#1e3a8a" stroke="#f59e0b" stroke-width="4"/>
+  <text x="600" y="215" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">N</text>
+  
+  <!-- Main Title -->
+  <text x="600" y="330" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="white" text-anchor="middle">
+    Ngurra Pathways
+  </text>
+  
+  <!-- Accent underline -->
+  <rect x="350" y="350" width="500" height="4" rx="2" fill="url(#accentGradient)"/>
+  
+  <!-- Tagline -->
+  <text x="600" y="410" font-family="Arial, sans-serif" font-size="28" fill="#94a3b8" text-anchor="middle">
+    Indigenous Employment &amp; Mentorship Platform
+  </text>
+  
+  <!-- Sub-tagline -->
+  <text x="600" y="460" font-family="Arial, sans-serif" font-size="22" fill="#64748b" text-anchor="middle">
+    Connecting First Nations talent with opportunity
+  </text>
+  
+  <!-- Feature pills -->
+  <g font-family="Arial, sans-serif" font-size="16" fill="white">
+    <!-- Jobs pill -->
+    <rect x="280" y="510" width="120" height="36" rx="18" fill="#1e3a8a"/>
+    <text x="340" y="534" text-anchor="middle">🎯 Jobs</text>
+    
+    <!-- Mentorship pill -->
+    <rect x="420" y="510" width="160" height="36" rx="18" fill="#1e3a8a"/>
+    <text x="500" y="534" text-anchor="middle">🤝 Mentorship</text>
+    
+    <!-- Courses pill -->
+    <rect x="600" y="510" width="140" height="36" rx="18" fill="#1e3a8a"/>
+    <text x="670" y="534" text-anchor="middle">📚 Courses</text>
+    
+    <!-- Community pill -->
+    <rect x="760" y="510" width="160" height="36" rx="18" fill="#1e3a8a"/>
+    <text x="840" y="534" text-anchor="middle">🌏 Community</text>
+  </g>
+  
+  <!-- Domain -->
+  <text x="600" y="600" font-family="Arial, sans-serif" font-size="18" fill="#64748b" text-anchor="middle">
+    ngurrapathways.com.au
+  </text>
+  
+  <!-- Bottom accent line -->
+  <rect x="0" y="624" width="1200" height="6" fill="url(#accentGradient)"/>
+</svg>

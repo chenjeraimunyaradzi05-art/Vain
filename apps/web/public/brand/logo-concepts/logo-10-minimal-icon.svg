@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Ngurra Pathways logo concept 10">
+  <defs>
+    <linearGradient id="m" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="0.5" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="40" y="40" width="432" height="432" rx="120" fill="url(#m)"/>
+  <rect x="60" y="60" width="392" height="392" rx="110" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.22)"/>
+
+  <!-- Australia (abstract) -->
+  <path d="M160 210
+           C182 170, 252 160, 292 178
+           C328 150, 388 178, 394 234
+           C420 276, 392 336, 342 350
+           C334 388, 292 418, 246 412
+           C200 428, 160 402, 146 362
+           C112 346, 106 272, 160 210Z"
+        fill="rgba(255,255,255,0.16)"/>
+
+  <!-- Kangaroo (simple, punchy) -->
+  <path d="M210 300
+           C238 266, 286 262, 318 288
+           C334 302, 340 332, 324 354
+           C294 396, 236 394, 214 360
+           C200 340, 198 324, 210 300Z"
+        fill="#f59e0b"/>
+  <path d="M268 278 L312 252" stroke="#f59e0b" stroke-width="18" stroke-linecap="round"/>
+</svg>

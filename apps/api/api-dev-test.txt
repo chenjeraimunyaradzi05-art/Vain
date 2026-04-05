@@ -1,0 +1,32 @@
+
+> ngurra-api@0.1.0 dev
+> ts-node-script --transpile-only src/index.ts
+
+========================================
+­ƒÜÇ Starting Ngurra API...
+========================================
+Environment:
+  PORT: 3333 
+  NODE_ENV: development
+  DATABASE_URL: Ô£à SET
+  JWT_SECRET: Ô£à SET
+  DEV_JWT_SECRET: Ô£à SET
+  REDIS_URL: Ô£à SET
+========================================
+­ƒôª Loading application modules...
+Ô£à Environment validation passed
+Ôä╣´©Å  Using in-memory rate limiting (Redis disabled in development)
+pdf-parse package not installed - PDF parsing disabled
+mammoth package not installed - DOCX parsing disabled
+Ô£à Application modules loaded successfully
+[Cache] Redis initialized
+[2m2026-01-30T15:06:25.881Z[0m [32mINFO [0m Ô£à Redis connected
+[2m2026-01-30T15:06:25.883Z[0m [32mINFO [0m ­ƒöî Socket.io server initialized
+[2m2026-01-30T15:06:25.883Z[0m [32mINFO [0m ­ƒöî Socket.io initialized
+[2m2026-01-30T15:06:25.885Z[0m [32mINFO [0m ­ƒÜÇ API running on http://localhost:3333
+[2m2026-01-30T15:06:25.885Z[0m [32mINFO [0m ­ƒôÜ API docs available at http://localhost:3333/docs
+[2m2026-01-30T15:06:25.885Z[0m [32mINFO [0m ÔØñ´©Å  Health check at http://localhost:3333/health
+[2m2026-01-30T15:06:25.885Z[0m [32mINFO [0m ­ƒöî Socket.io ready at ws://localhost:3333
+[2m2026-01-30T15:06:25.885Z[0m [32mINFO [0m Deployment initialized [2mslot=blue version=1.0.0 instanceId=local-26196[0m
+[Scheduler] Skipped in non-production (set ENABLE_SCHEDULER=true to enable)
+[2m2026-01-30T15:06:25.888Z[0m [32mINFO [0m Ô£à Socket.io Redis adapter connected

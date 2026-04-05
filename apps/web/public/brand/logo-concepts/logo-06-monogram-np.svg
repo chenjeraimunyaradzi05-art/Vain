@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-label="Ngurra Pathways logo concept 06">
+  <defs>
+    <linearGradient id="np" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(56,56)">
+    <rect x="0" y="0" width="216" height="216" rx="44" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
+
+    <!-- Australia outline behind monogram -->
+    <path d="M56 88
+             C72 60, 118 52, 140 62
+             C160 42, 196 58, 198 92
+             C214 118, 202 150, 176 160
+             C172 186, 150 202, 124 202
+             C98 210, 72 196, 62 174
+             C42 166, 38 124, 56 88Z"
+          fill="rgba(236,72,153,0.12)" stroke="rgba(236,72,153,0.22)" stroke-width="2"/>
+
+    <!-- NP monogram shaped like a kangaroo jump -->
+    <path d="M64 164 V78 H98
+             C130 78, 144 92, 144 114
+             C144 136, 130 150, 98 150 H90 V164 Z"
+          fill="url(#np)"/>
+    <path d="M158 164 V78 H188
+             C206 78, 220 92, 220 112
+             C220 132, 206 146, 188 146 H174 V164 Z"
+          fill="#f59e0b" opacity="0.95"/>
+
+    <path d="M120 140 C134 132, 150 130, 168 134" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  </g>
+
+  <g transform="translate(312,112)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="46" font-weight="900" fill="#1e293b">Ngurra Pathways</text>
+    <text x="0" y="42" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="600" fill="#64748b">Mentorship • Jobs • Learning</text>
+  </g>
+</svg>

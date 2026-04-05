@@ -1,0 +1,289 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL_SQLITE")
+}
+
+/// User types supported by the platform
+// For sqlite we store enum-like values as strings to avoid native-enum incompatibilities
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  userType  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Optional one-to-one type-specific profiles
+  memberProfile     MemberProfile?
+  companyProfile    CompanyProfile?
+  governmentProfile GovernmentProfile?
+  institutionProfile InstitutionProfile?
+  fifoProfile       FifoProfile?
+  mentorProfile     MentorProfile?
+  // Relations
+  uploadedFiles UploadedFile[]
+  jobs           Job[]
+  applications   JobApplication[]
+  messages       ApplicationMessage[]
+}
+
+model MemberProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  phone         String?
+  mobNation     String?
+  skillLevel    String?
+  careerInterest String?
+  bio           String?
+  profileCompletionPercent Int @default(0)
+  profileViews  Int @default(0)
+  applicationCount Int @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MentorProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  phone     String?
+  expertise String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CompanyProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  companyName   String
+  abn           String?  @unique
+  industry      String
+  description   String?
+  website       String?
+  address       String?
+  city          String?
+  state         String?
+  postcode      String?
+  phone         String?
+  hrEmail       String?  @unique
+  isVerified    Boolean  @default(false)
+  verifiedAt    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model GovernmentProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  agencyName    String
+  agencyCode    String   @unique
+  description   String?
+  address       String?
+  phone         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model InstitutionProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  institutionName String
+  institutionType String
+  courses       String?
+  address       String?
+  phone         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model FifoProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  companyName   String
+  industry      String
+  locations     String?
+  rosterDays    Int?
+  address       String?
+  phone         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model UploadedFile {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  filename  String
+  key       String       @unique
+  url       String
+  mimeType  String?
+  size      Int?         // bytes
+  category  String         @default("OTHER")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  // Applications referencing this file as a resume
+  resumeForApplications JobApplication[]
+}
+
+model Job {
+  id          String         @id @default(cuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  title       String
+  slug        String?        @unique
+  description String
+  location    String?
+  employment  String?
+  salaryLow   Int?
+  salaryHigh  Int?
+  isActive    Boolean        @default(true)
+  postedAt    DateTime       @default(now())
+  expiresAt   DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  // Job applications for this job
+  applications JobApplication[]
+}
+
+model JobApplication {
+  id         String    @id @default(cuid())
+  jobId      String
+  job        Job       @relation(fields: [jobId], references: [id])
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  resumeId   String?   // references UploadedFile.id
+  resume     UploadedFile? @relation(fields: [resumeId], references: [id])
+  coverLetter String?
+  status     String @default("SUBMITTED")
+  scheduledAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  // messages linked to this application (company notes / candidate messages)
+  messages   ApplicationMessage[]
+}
+
+model ApplicationMessage {
+  id            String   @id @default(cuid())
+  applicationId String
+  application   JobApplication @relation(fields: [applicationId], references: [id])
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  body          String
+  isPrivate     Boolean  @default(false) // for company-only notes
+  createdAt     DateTime @default(now())
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  subject   String
+  text      String
+  html      String
+  updatedAt DateTime @updatedAt
+}
+
+model AiResource {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  type      String   // e.g. WELLNESS, COURSE, GUIDE
+  title     String
+  body      String
+  tags      String?  // comma separated tags
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OAuthToken {
+  id           String   @id @default(cuid())
+  userId       String
+  provider     String   // "refresh" for refresh tokens, "google", "apple" etc for OAuth
+  accessToken  String   @unique
+  refreshToken String?
+  expiresAt    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId, provider])
+}
+
+model CompanySubscription {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  tier                  String   @default("FREE") // FREE, STARTER, PROFESSIONAL, ENTERPRISE, RAP
+  stripeCustomerId      String?
+  stripeSubscriptionId  String?
+  status                String   @default("active") // active, canceled, past_due
+  currentPeriodStart    DateTime?
+  currentPeriodEnd      DateTime?
+  cancelAtPeriodEnd     Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  
+  invoices              Invoice[]
+}
+
+model Invoice {
+  id                    String   @id @default(cuid())
+  subscriptionId        String
+  subscription          CompanySubscription @relation(fields: [subscriptionId], references: [id])
+  stripeInvoiceId       String?  @unique
+  amountPaid            Int      @default(0) // cents
+  status                String   @default("paid") // paid, open, void
+  pdfUrl                String?
+  createdAt             DateTime @default(now())
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  eventType String
+  userId    String?
+  sessionId String?
+  data      String?  // JSON string for flexible event data
+  createdAt DateTime @default(now())
+
+  @@index([eventType])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model FeaturedJob {
+  id        String   @id @default(cuid())
+  jobId     String
+  placement String   @default("homepage") // homepage, sidebar, category
+  priority  Int      @default(0)
+  startDate DateTime @default(now())
+  endDate   DateTime?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([placement])
+  @@index([isActive])
+}
+
+model FeaturedPartner {
+  id          String   @id @default(cuid())
+  companyId   String
+  tier        String   @default("standard") // standard, premium, platinum
+  placement   String   @default("homepage") // homepage, sidebar
+  priority    Int      @default(0)
+  startDate   DateTime @default(now())
+  endDate     DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([placement])
+  @@index([isActive])
+}

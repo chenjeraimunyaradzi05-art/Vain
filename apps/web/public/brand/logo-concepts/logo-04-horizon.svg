@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-label="Ngurra Pathways logo concept 04">
+  <defs>
+    <linearGradient id="h" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1C2B36"/>
+      <stop offset="1" stop-color="#2F4C5C"/>
+    </linearGradient>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="320" fill="none"/>
+
+  <g transform="translate(56,68)">
+    <rect x="0" y="0" width="248" height="184" rx="32" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
+    <rect x="16" y="16" width="216" height="90" rx="22" fill="url(#h)"/>
+    <rect x="16" y="16" width="216" height="90" rx="22" fill="rgba(0,0,0,0.15)"/>
+
+    <!-- Australia line on horizon -->
+    <path d="M54 86
+             C70 64, 112 58, 132 66
+             C152 50, 186 62, 190 86
+             C202 106, 190 126, 172 132
+             C168 148, 150 156, 132 156
+             C110 164, 90 154, 82 142
+             C64 138, 58 110, 54 86Z"
+          fill="none" stroke="#f59e0b" stroke-width="5" stroke-linejoin="round"/>
+
+    <!-- Kangaroo jumping over horizon line -->
+    <path d="M104 104
+             C120 90, 142 92, 154 106
+             C160 112, 162 120, 158 128
+             C150 142, 126 146, 112 134
+             C106 128, 104 118, 104 104Z"
+          fill="url(#a)"/>
+
+    <path d="M16 126 H232" stroke="rgba(255,255,255,0.35)" stroke-width="3"/>
+
+    <text x="124" y="164" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="800" fill="#ffffff">NGURRA</text>
+    <text x="124" y="186" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="700" fill="rgba(255,255,255,0.75)">PATHWAYS</text>
+  </g>
+
+  <g transform="translate(340,112)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="46" font-weight="900" fill="#1e293b">Ngurra Pathways</text>
+    <text x="0" y="42" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="600" fill="#64748b">Guiding opportunity across Australia</text>
+  </g>
+</svg>

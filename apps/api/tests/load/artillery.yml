@@ -1,0 +1,184 @@
+/**
+ * Load Testing Configuration
+ * 
+ * Artillery load testing configuration for API performance testing
+ * 
+ * Usage:
+ *   npx artillery run apps/api/tests/load/artillery.yml
+ *   npx artillery run --output report.json apps/api/tests/load/artillery.yml
+ */
+
+config:
+  target: "{{ $processEnvironment.API_URL || 'http://localhost:3001' }}"
+  phases:
+    # Warm up
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm up"
+    
+    # Ramp up
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 20
+      name: "Ramp up load"
+    
+    # Sustained load
+    - duration: 120
+      arrivalRate: 20
+      name: "Sustained load"
+    
+    # Spike test
+    - duration: 30
+      arrivalRate: 50
+      name: "Spike test"
+    
+    # Cool down
+    - duration: 30
+      arrivalRate: 5
+      name: "Cool down"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+
+  plugins:
+    expect: {}
+    
+  # Variables for test data
+  variables:
+    searchTerms:
+      - "developer"
+      - "engineer"
+      - "manager"
+      - "analyst"
+      - "designer"
+    locations:
+      - "Sydney"
+      - "Melbourne"
+      - "Brisbane"
+      - "Perth"
+      - "Adelaide"
+
+  # Payload for test users
+  payload:
+    path: "./test-users.csv"
+    fields:
+      - "email"
+      - "password"
+    skipHeader: true
+    order: random
+
+  # Performance thresholds
+  ensure:
+    p99: 1500
+    p95: 500
+    median: 200
+
+scenarios:
+  # Health check scenario
+  - name: "Health Check"
+    weight: 10
+    flow:
+      - get:
+          url: "/api/v1/health/live"
+          expect:
+            - statusCode: 200
+            - contentType: application/json
+
+  # Public jobs listing
+  - name: "Browse Jobs"
+    weight: 40
+    flow:
+      # List jobs
+      - get:
+          url: "/api/v1/jobs?page=1&limit=20"
+          expect:
+            - statusCode: 200
+          capture:
+            - json: "$.data[0].id"
+              as: "firstJobId"
+      
+      # Search jobs
+      - get:
+          url: "/api/v1/jobs?search={{ searchTerms }}&location={{ locations }}"
+          expect:
+            - statusCode: 200
+      
+      # View single job (if we captured an ID)
+      - get:
+          url: "/api/v1/jobs/{{ firstJobId }}"
+          ifTrue: "firstJobId"
+          expect:
+            - statusCode: 200
+
+  # Authenticated user flow
+  - name: "Authenticated User Flow"
+    weight: 30
+    flow:
+      # Login
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+          expect:
+            - statusCode:
+                - 200
+                - 401
+      
+      # Get profile (if logged in)
+      - get:
+          url: "/api/v1/users/me"
+          ifTrue: "authToken"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+      
+      # Browse jobs (authenticated)
+      - get:
+          url: "/api/v1/jobs?page=1&limit=10"
+          ifTrue: "authToken"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+      
+      # View applications (authenticated)
+      - get:
+          url: "/api/v1/applications"
+          ifTrue: "authToken"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+
+  # Registration flow (low weight to avoid creating too many users)
+  - name: "Registration Attempt"
+    weight: 5
+    flow:
+      - post:
+          url: "/api/v1/auth/register"
+          json:
+            email: "loadtest+{{ $uuid }}@example.com"
+            password: "LoadTest123!"
+            firstName: "Load"
+            lastName: "Test"
+          expect:
+            - statusCode:
+                - 201
+                - 400
+                - 429  # Rate limited
+
+  # Mentorship browsing
+  - name: "Mentorship Browsing"
+    weight: 15
+    flow:
+      - get:
+          url: "/api/v1/mentorship/mentors/available?limit=10"
+          expect:
+            - statusCode: 200

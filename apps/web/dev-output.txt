@@ -1,0 +1,23 @@
+
+> ngurra-web@0.1.0 dev
+> next dev --webpack
+
+ÔÜá Port 3000 is in use by process 30624, using available port 3001 instead.
+Ôû▓ Next.js 16.1.4 (webpack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.1.5:3001
+- Environments: .env
+- Experiments (use with caution):
+  ┬À optimizePackageImports
+
+Ô£ô Starting...
+Ô¿» Unable to acquire lock at C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web\.next\dev\lock, is another instance of next dev running?
+  Suggestion: If you intended to restart next dev, terminate the other process, and then try again.
+[?25h
+npm error Lifecycle script `dev` failed with error:
+npm error code 1
+npm error path C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web
+npm error workspace ngurra-web@0.1.0
+npm error location C:\Users\mutir\OneDrive\Desktop\Gimbi\apps\web
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next dev --webpack

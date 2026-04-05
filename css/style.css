@@ -1,0 +1,684 @@
+/* ====================================================================
+   Ngurra Pathways - Main Theme Styles
+   Extended styling for components, layouts, and interactive elements
+   ==================================================================== */
+
+/* -------------------------------------------------------------------
+   Job Listings
+   ------------------------------------------------------------------- */
+.jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.job-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #ffffff, #fafaf8);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(44, 95, 71, 0.12);
+  border-color: var(--accent);
+}
+
+.job-card .job-content {
+  flex: 1;
+}
+
+.job-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.15rem;
+  color: var(--primary);
+}
+
+.job-card .job-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.job-card .job-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.job-card .job-description {
+  margin-top: 10px;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* -------------------------------------------------------------------
+   Application Form
+   ------------------------------------------------------------------- */
+.apply-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.apply-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 0.9rem;
+}
+
+.apply-box input[type="text"],
+.apply-box input[type="email"],
+.apply-box input[type="tel"],
+.apply-box select,
+.apply-box textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--input-bg);
+  transition: all 0.2s;
+}
+
+.apply-box input:focus,
+.apply-box select:focus,
+.apply-box textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+
+.apply-box input[type="file"] {
+  font-size: 0.9rem;
+  padding: 8px;
+}
+
+.apply-box textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* -------------------------------------------------------------------
+   Admin Dashboard
+   ------------------------------------------------------------------- */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.admin-table thead {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: white;
+}
+
+.admin-table th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.admin-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr {
+  transition: background 0.2s;
+}
+
+.admin-table tbody tr:hover {
+  background: var(--sand-dark);
+}
+
+.admin-table button {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  margin-right: 4px;
+}
+
+.admin-table button.view {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.admin-table button.del {
+  background: #FEE2E2;
+  color: #DC2626;
+  border: 1px solid #FCA5A5;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------
+   Dashboard Components
+   ------------------------------------------------------------------- */
+.candidate-hero__inner {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+/* -------------------------------------------------------------------
+   Two-column hero (content + image collage)
+   ------------------------------------------------------------------- */
+/* ================================================================
+   TWO-COLUMN HERO: Content + Image Slideshow
+   ================================================================ */
+.hero-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* CRITICAL: 50/50 split */
+  gap: 28px;
+  align-items: stretch;            /* Match heights */
+  width: 100%;
+  margin-bottom: 32px;
+  /* Responsive height token */
+  --hero-card-height: 420px;
+}
+
+/* central hero sizing token so both sides match height */
+:root { --hero-card-height: 420px; }
+
+/* LEFT COLUMN: Text Content */
+.hero-2col .hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Enhanced hero-left visual treatment */
+/* Enhanced hero-left visual treatment */
+.hero-left-inner {
+  padding: 32px 20px;
+  border-radius: 14px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(245, 245, 252, 0.98)
+  );
+  box-shadow: var(--elev-1);
+  border: 1px solid rgba(15, 23, 42, 0.03);
+  /* Flex layout for vertical centering */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* CRITICAL: Match slideshow height */
+  height: var(--hero-card-height);
+}
+.hero-badge { display:inline-block; padding:6px 12px; border-radius:999px; background: linear-gradient(90deg,var(--aura-purple),var(--aura-indigo)); color:white; font-weight:800; font-size:0.85rem; letter-spacing:0.02em; margin-bottom:6px; box-shadow:0 6px 18px rgba(99,102,241,0.08); }
+.hero-title { margin: 0 0 8px; font-size: clamp(2rem, 5.6vw, 3rem); color: var(--primary-dark); line-height:1.05; font-weight:900; text-shadow: 0 3px 18px rgba(99,102,241,0.06); }
+.hero-lead { margin:0 0 16px; color: var(--text-muted); font-size: 1.06rem; line-height:1.6; }
+
+.hero-ctas { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:6px; margin-bottom:14px; }
+.hero-ctas .btn-ghost { border: 2px solid rgba(99,102,241,0.12); color:var(--primary-dark); background: transparent; }
+.hero-cta-note { display:block; font-size:0.85rem; color:var(--text-muted); margin-left:8px; }
+
+.feature-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:12px; margin-top:18px; }
+.feature-card { display:flex; gap:12px; align-items:flex-start; padding: 12px; border-radius:12px; background: linear-gradient(90deg, rgba(236,72,153,0.03), rgba(99,102,241,0.02)); border:1px solid rgba(15,23,42,0.04); box-shadow: var(--elev-1); }
+.feature-card .icon { width:48px; height:48px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; font-size:1.3rem; background: linear-gradient(135deg, rgba(236,72,153,0.12), rgba(99,102,241,0.12)); color: var(--aura-indigo); flex:0 0 48px; box-shadow: 0 8px 20px rgba(99,102,241,0.06); }
+.feature-card strong { display:block; margin-bottom:4px; color:var(--primary-dark); font-weight:800; }
+.feature-text { color:var(--text-muted); font-size:0.92rem; }
+
+@media (max-width: 960px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .hero-ctas { flex-direction: column; align-items: stretch; }
+  .hero-cta-note { margin-left: 0; }
+}
+
+/* RIGHT COLUMN: Photo Slideshow */
+.hero-2col .hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.image-card {
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* allow caption overlays */
+}
+
+.image-card img {
+  width: 100%;
+  height: 100%;
+  /* Make images fill the frame consistently (16:9) and crop where necessary */
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.image-card--large {
+  grid-column: 1 / -1;
+  /* make the large hero image follow the site-wide hero aspect (16:9) */
+  aspect-ratio: 16/9;
+  min-height: 220px; /* fallback for browsers without aspect-ratio */
+}
+
+/* Global hero slideshow styles (desktop + mobile) */
+/* Global hero slideshow styles (desktop + mobile) */
+.hero-slideshow {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+  /* Lock the hero to a consistent 16:9 aspect ratio for consistent framing */
+  aspect-ratio: 16/9;
+  min-height: 220px; /* fallback for browsers without aspect-ratio */
+  width: 100%;
+  max-height: var(--hero-card-height);
+}
+.hero-slideshow .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; display:block; opacity: 0; transition: opacity .9s ease-in-out, transform .9s ease-in-out; transform: scale(1); }
+.hero-slideshow .hero-slide.visible { opacity: 1; z-index: 1; transform: scale(1.01); }
+.hero-slideshow .hero-slide img {
+  /* Preserve natural aspect ratio and avoid stretching.
+     Use contain so the full image is visible; container background provides subtle fill for letterboxing. */
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  /* For a 16:9 hero we prefer cover to consistently fill the frame and preserve subject placement */
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  background: linear-gradient(180deg, rgba(245,245,250,0.7), rgba(250,250,255,0.9));
+}
+.hero-slideshow::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.08) 65%, rgba(0,0,0,0.14) 100%); pointer-events: none; }
+
+.image-card--stack {
+  /* stacked cards also use 16:9 but we clamp max-height for compact layouts */
+  aspect-ratio: 16/9;
+  max-height: 320px;
+}
+
+@media (max-width: 960px) {
+  :root { --hero-card-height: 320px; }
+  .hero-2col { grid-template-columns: 1fr; }
+  /* Avoid forcing a fixed height — use max-height so aspect-ratio (16:9) controls layout */
+  .image-card--large { max-height: var(--hero-card-height); }
+  /* Hero slideshow styles */
+  .hero-slideshow {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+    aspect-ratio: 16/9;
+    min-height: 220px;
+    width: 100%;
+    max-height: var(--hero-card-height);
+  }
+  .hero-slideshow .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display:block; opacity: 0; transition: opacity .9s ease-in-out, transform .9s ease-in-out; transform: scale(1); }
+  .hero-slideshow .hero-slide.visible { opacity: 1; z-index: 1; transform: scale(1.01); }
+  .hero-slideshow::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.08) 65%, rgba(0,0,0,0.14) 100%); pointer-events: none; }
+  .hero-right .image-card { box-shadow: var(--elev-2); border-radius: 12px; }
+  .image-card--stack { max-height: 220px; }
+}
+
+/* Image credit overlay */
+.image-card .img-credit {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  background: rgba(0,0,0,0.5);
+  color: rgba(255,255,255,0.95);
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  z-index: 3;
+}
+.image-card .img-credit a { color: rgba(255,255,255,0.95); text-decoration: underline; }
+
+@media (max-width: 960px) {
+  .candidate-hero__inner {
+    flex-direction: column;
+  }
+}
+
+.cand-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cand-badge {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.9);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.hero-metric {
+  background: rgba(255,255,255,0.08);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  text-align: center;
+}
+
+.hero-metric .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+}
+
+.hero-metric .value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-metric .context {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.priority-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.priority-card {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+}
+
+.priority-card .title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.priority-card .copy {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.4;
+}
+
+.candidate-progress-chip {
+  background: rgba(255,255,255,0.1);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  text-align: center;
+}
+
+.candidate-progress-chip__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+}
+
+.candidate-progress-chip__value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.next-moves {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.move-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  align-items: flex-start;
+}
+
+.move-card .icon {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.move-card .title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.move-card .copy {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.3;
+}
+
+/* -------------------------------------------------------------------
+   Notice Boxes
+   ------------------------------------------------------------------- */
+.notice {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.notice strong {
+  color: #92400E;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* -------------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------------- */
+.muted {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.small {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.sk {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.sk:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-weight: 700;
+  z-index: 100;
+  border-radius: 0 0 8px 0;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* -------------------------------------------------------------------
+   Animations
+   ------------------------------------------------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.4s ease-out;
+}
+
+/* Stagger animation for lists */
+.jobs-list > *,
+.priority-list > *,
+.next-moves > * {
+  animation: fadeIn 0.4s ease-out backwards;
+}
+
+.jobs-list > *:nth-child(1) { animation-delay: 0.05s; }
+.jobs-list > *:nth-child(2) { animation-delay: 0.1s; }
+.jobs-list > *:nth-child(3) { animation-delay: 0.15s; }
+.jobs-list > *:nth-child(4) { animation-delay: 0.2s; }
+.jobs-list > *:nth-child(5) { animation-delay: 0.25s; }
+
+/* -------------------------------------------------------------------
+   Loading States
+   ------------------------------------------------------------------- */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* -------------------------------------------------------------------
+   Logo & Branding
+   ------------------------------------------------------------------- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo img {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: rgba(255,255,255,0.06);
+  padding: 2px;
+}
+
+/* -------------------------------------------------------------------
+   Hero & Banner
+   ------------------------------------------------------------------- */
+.hero-sub {
+  max-width: 700px;
+  margin: 20px auto 0;
+  color: rgba(255,255,255,0.9);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* -------------------------------------------------------------------
+   Responsive Improvements
+   ------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .job-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-table {
+    font-size: 0.8rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 6px;
+  }
+}

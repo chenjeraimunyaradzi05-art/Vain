@@ -1,0 +1,302 @@
+/**
+ * Biometric Authentication Service for React Native
+ * 
+ * Supports TouchID, FaceID (iOS) and Fingerprint (Android)
+ * using expo-local-authentication.
+ */
+import * as LocalAuthentication from 'expo-local-authentication';
+import * as SecureStore from 'expo-secure-store';
+import { Platform, Alert } from 'react-native';
+
+const BIOMETRIC_ENABLED_KEY = 'biometric_auth_enabled';
+const SECURE_TOKEN_KEY = 'secure_auth_token';
+
+/**
+ * Biometric authentication types
+ */
+export const BiometricType = {
+  FINGERPRINT: LocalAuthentication.AuthenticationType.FINGERPRINT,
+  FACIAL_RECOGNITION: LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
+  IRIS: LocalAuthentication.AuthenticationType.IRIS,
+};
+
+/**
+ * Check if device supports biometric authentication
+ * @returns {Promise<boolean>}
+ */
+export async function isBiometricSupported() {
+  const compatible = await LocalAuthentication.hasHardwareAsync();
+  return compatible;
+}
+
+/**
+ * Check if biometrics are enrolled on the device
+ * @returns {Promise<boolean>}
+ */
+export async function isBiometricEnrolled() {
+  const enrolled = await LocalAuthentication.isEnrolledAsync();
+  return enrolled;
+}
+
+/**
+ * Get available biometric types
+ * @returns {Promise<number[]>} Array of AuthenticationType values
+ */
+export async function getAvailableBiometricTypes() {
+  const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
+  return types;
+}
+
+/**
+ * Get a human-readable name for the biometric type
+ * @returns {Promise<string>}
+ */
+export async function getBiometricTypeName() {
+  const types = await getAvailableBiometricTypes();
+  
+  if (types.includes(BiometricType.FACIAL_RECOGNITION)) {
+    return Platform.OS === 'ios' ? 'Face ID' : 'Face Recognition';
+  }
+  if (types.includes(BiometricType.FINGERPRINT)) {
+    return Platform.OS === 'ios' ? 'Touch ID' : 'Fingerprint';
+  }
+  if (types.includes(BiometricType.IRIS)) {
+    return 'Iris Scanner';
+  }
+  
+  return 'Biometrics';
+}
+
+/**
+ * Authenticate using biometrics
+ * @param {string} promptMessage - Message to show in the prompt
+ * @returns {Promise<{success: boolean, error?: string}>}
+ */
+export async function authenticateWithBiometrics(
+  promptMessage = 'Verify your identity'
+) {
+  try {
+    // Check support
+    const isSupported = await isBiometricSupported();
+    if (!isSupported) {
+      return {
+        success: false,
+        error: 'Biometric authentication is not supported on this device',
+      };
+    }
+
+    // Check enrollment
+    const isEnrolled = await isBiometricEnrolled();
+    if (!isEnrolled) {
+      return {
+        success: false,
+        error: 'No biometrics enrolled. Please set up biometrics in device settings.',
+      };
+    }
+
+    // Attempt authentication
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage,
+      cancelLabel: 'Cancel',
+      disableDeviceFallback: false, // Allow PIN/password fallback
+      fallbackLabel: 'Use Password',
+    });
+
+    if (result.success) {
+      return { success: true };
+    }
+
+    // Handle specific errors
+    if (result.error === 'user_cancel') {
+      return { success: false, error: 'Authentication cancelled' };
+    }
+    if (result.error === 'user_fallback') {
+      return { success: false, error: 'User chose password fallback' };
+    }
+    if (result.error === 'lockout') {
+      return { 
+        success: false, 
+        error: 'Too many failed attempts. Please try again later.' 
+      };
+    }
+
+    return { 
+      success: false, 
+      error: result.error || 'Authentication failed' 
+    };
+  } catch (error) {
+    console.error('Biometric auth error:', error);
+    return { 
+      success: false, 
+      error: 'An error occurred during authentication' 
+    };
+  }
+}
+
+/**
+ * Check if biometric login is enabled for this user
+ * @returns {Promise<boolean>}
+ */
+export async function isBiometricLoginEnabled() {
+  try {
+    const enabled = await SecureStore.getItemAsync(BIOMETRIC_ENABLED_KEY);
+    return enabled === 'true';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Enable biometric login
+ * @param {string} authToken - User's auth token to store securely
+ * @returns {Promise<boolean>}
+ */
+export async function enableBiometricLogin(authToken) {
+  try {
+    // Verify biometrics first
+    const authResult = await authenticateWithBiometrics(
+      'Verify your identity to enable biometric login'
+    );
+    
+    if (!authResult.success) {
+      Alert.alert('Error', authResult.error || 'Authentication failed');
+      return false;
+    }
+
+    // Store token securely
+    await SecureStore.setItemAsync(SECURE_TOKEN_KEY, authToken, {
+      keychainAccessible: SecureStore.WHEN_UNLOCKED,
+    });
+
+    // Mark as enabled
+    await SecureStore.setItemAsync(BIOMETRIC_ENABLED_KEY, 'true');
+
+    return true;
+  } catch (error) {
+    console.error('Error enabling biometric login:', error);
+    return false;
+  }
+}
+
+/**
+ * Disable biometric login
+ * @returns {Promise<boolean>}
+ */
+export async function disableBiometricLogin() {
+  try {
+    await SecureStore.deleteItemAsync(SECURE_TOKEN_KEY);
+    await SecureStore.deleteItemAsync(BIOMETRIC_ENABLED_KEY);
+    return true;
+  } catch (error) {
+    console.error('Error disabling biometric login:', error);
+    return false;
+  }
+}
+
+/**
+ * Perform biometric login
+ * @returns {Promise<{success: boolean, token?: string, error?: string}>}
+ */
+export async function biometricLogin() {
+  try {
+    // Check if enabled
+    const isEnabled = await isBiometricLoginEnabled();
+    if (!isEnabled) {
+      return { 
+        success: false, 
+        error: 'Biometric login is not enabled' 
+      };
+    }
+
+    // Authenticate
+    const authResult = await authenticateWithBiometrics(
+      'Sign in to Ngurra Pathways'
+    );
+
+    if (!authResult.success) {
+      return { 
+        success: false, 
+        error: authResult.error 
+      };
+    }
+
+    // Retrieve stored token
+    const token = await SecureStore.getItemAsync(SECURE_TOKEN_KEY);
+    if (!token) {
+      // Token was removed, disable biometric login
+      await disableBiometricLogin();
+      return { 
+        success: false, 
+        error: 'Session expired. Please log in with your password.' 
+      };
+    }
+
+    return { 
+      success: true, 
+      token 
+    };
+  } catch (error) {
+    console.error('Biometric login error:', error);
+    return { 
+      success: false, 
+      error: 'An error occurred during authentication' 
+    };
+  }
+}
+
+/**
+ * Update stored token (e.g., after token refresh)
+ * @param {string} newToken - New auth token
+ * @returns {Promise<boolean>}
+ */
+export async function updateStoredToken(newToken) {
+  try {
+    const isEnabled = await isBiometricLoginEnabled();
+    if (!isEnabled) {
+      return false;
+    }
+
+    await SecureStore.setItemAsync(SECURE_TOKEN_KEY, newToken, {
+      keychainAccessible: SecureStore.WHEN_UNLOCKED,
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Error updating stored token:', error);
+    return false;
+  }
+}
+
+/**
+ * Get biometric status for UI display
+ * @returns {Promise<Object>}
+ */
+export async function getBiometricStatus() {
+  const isSupported = await isBiometricSupported();
+  const isEnrolled = await isBiometricEnrolled();
+  const isEnabled = await isBiometricLoginEnabled();
+  const typeName = await getBiometricTypeName();
+
+  return {
+    isSupported,
+    isEnrolled,
+    isEnabled,
+    typeName,
+    canEnable: isSupported && isEnrolled,
+  };
+}
+
+export default {
+  isBiometricSupported,
+  isBiometricEnrolled,
+  getAvailableBiometricTypes,
+  getBiometricTypeName,
+  authenticateWithBiometrics,
+  isBiometricLoginEnabled,
+  enableBiometricLogin,
+  disableBiometricLogin,
+  biometricLogin,
+  updateStoredToken,
+  getBiometricStatus,
+  BiometricType,
+};
