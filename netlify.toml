@@ -9,6 +9,9 @@
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_placeholder"
   NEXT_PUBLIC_LIVEKIT_URL = "wss://livekit.vantageplatform.com"
 
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 [dev]
   command = "npm run dev"
   port = 3000
