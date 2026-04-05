@@ -1,7 +1,7 @@
 [build]
-  base = "apps/web"
-  command = "npm run build"
-  publish = ".next"
+  base = "/"
+  command = "cd apps/web && npm run build"
+  publish = "apps/web/.next"
 
 [build.environment]
   NODE_VERSION = "22"
@@ -11,7 +11,8 @@
   NEXT_PUBLIC_LIVEKIT_URL = "wss://livekit.vantageplatform.com"
 
 [dev]
-  command = "npm run dev"
+  command = "cd apps/web && npm run dev"
   port = 3000
   targetPort = 3000
+  publish = "apps/web"
 
