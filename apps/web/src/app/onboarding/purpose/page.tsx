@@ -4,11 +4,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Shield, Users, Heart, AlertTriangle, ArrowRight, CheckCircle } from 'lucide-react';
 
-export const metadata = {
-  title: 'Choose Your Path | Vantage',
-  description: 'Select your primary purpose to personalize your Vantage experience',
-};
-
 const PURPOSE_OPTIONS = [
   {
     value: 'work',

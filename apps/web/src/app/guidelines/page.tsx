@@ -2,11 +2,6 @@
 
 import { Shield, Users, Heart, AlertTriangle, CheckCircle } from 'lucide-react';
 
-export const metadata = {
-  title: 'Community Guidelines | Vantage',
-  description: 'Community guidelines and code of conduct for the Vantage platform.',
-};
-
 export default function GuidelinesPage() {
   return (
     <div className="vantage-page py-12 px-6">
