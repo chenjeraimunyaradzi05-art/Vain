@@ -21,10 +21,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Local env files
+# Local env files (but allow .env.production for deployment)
 .env
 .env*.local
-.env.production
+!.env.production
 
 # Vercel
 .vercel
