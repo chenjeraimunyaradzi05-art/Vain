@@ -1,7 +1,7 @@
 /**
- * Next.js Proxy (replaces middleware convention)
+ * Next.js Middleware
  *
- * Security proxy for:
+ * Security middleware for:
  * - CSP nonce generation for inline scripts
  * - Security headers enhancement
  * - Rate limiting at edge
@@ -83,7 +83,7 @@ function isRateLimited(ip: string): boolean {
 // Note: Cleanup happens lazily in isRateLimited function
 // setInterval is not supported in serverless/edge environments
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip middleware for static assets
