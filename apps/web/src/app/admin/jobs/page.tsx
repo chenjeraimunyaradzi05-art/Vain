@@ -106,7 +106,7 @@ interface JobStats {
 export default function AdminJobsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { showNotification } = useUIStore();
+  const { showToast } = useUIStore();
 
   // State
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -152,11 +152,11 @@ export default function AdminJobsPage() {
       }
     } catch (error) {
       console.error('Error loading job data:', error);
-      showNotification('Failed to load job data', 'error');
+      showToast({ type: 'error', title: 'Failed to load job data' });
     } finally {
       setIsLoading(false);
     }
-  }, [searchTerm, statusFilter, typeFilter, sortBy, sortOrder, currentPage, pageSize, showNotification]);
+  }, [searchTerm, statusFilter, typeFilter, sortBy, sortOrder, currentPage, pageSize, showToast]);
 
   useEffect(() => {
     loadData();
@@ -201,13 +201,13 @@ export default function AdminJobsPage() {
       });
 
       if (response.ok) {
-        showNotification(`${action} completed successfully`, 'success');
+        showToast({ type: 'success', title: `${action} completed successfully` });
         setSelectedJobs(new Set());
         await loadData();
       }
     } catch (error) {
       console.error('Error performing bulk action:', error);
-      showNotification('Failed to perform bulk action', 'error');
+      showToast({ type: 'error', title: 'Failed to perform bulk action' });
     }
   };
 
@@ -220,12 +220,12 @@ export default function AdminJobsPage() {
       });
 
       if (response.ok) {
-        showNotification(`Job ${action}d successfully`, 'success');
+        showToast({ type: 'success', title: `Job ${action}d successfully` });
         await loadData();
       }
     } catch (error) {
       console.error('Error performing job action:', error);
-      showNotification(`Failed to ${action} job`, 'error');
+      showToast({ type: 'error', title: `Failed to ${action} job` });
     }
   };
 
